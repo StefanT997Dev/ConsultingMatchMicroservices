@@ -1,0 +1,64 @@
+.event-container{
+    height: 50vh;
+    width: 60vw;
+    position: relative;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 4px;
+}
+
+.ScheduledEventComponent{
+    display:grid;
+    justify-content: center;
+}
+
+.eventCard{
+    width: 15vw;
+    height: 50vh;
+    border-radius: 20px;
+    padding: 40px 40px 40px 40px;
+    justify-content: center;
+    background: #5dbdf5;
+    display: grid;
+    margin-top:10%;
+    margin-left: 15%;
+}
+
+.nameSection{
+    width: 15vw;
+    height: 10vh;
+    border-bottom: 3px solid white;
+}
+
+.bela{
+    color:white;
+}
+
+.timeAndDateSection{
+    width: 15vw;
+    height: 30vh;
+    border-bottom: 3px solid white;
+    display:grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.time{
+    font-size: 8vw;
+    margin-bottom: 10%;
+}
+
+.name{
+    font-size: 2vw;
+}
+
+.date{
+    font-size:2vw;
+    margin-bottom: 10%;
+}
+
+.business{
+    font-size: 1vw;
+}
