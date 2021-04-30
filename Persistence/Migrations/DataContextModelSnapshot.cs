@@ -70,9 +70,6 @@ namespace Persistence.Migrations
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
                     b.Property<string>("SalesVideo")
                         .HasColumnType("nvarchar(max)");
 
@@ -174,11 +171,33 @@ namespace Persistence.Migrations
                     b.ToTable("Level");
                 });
 
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConsultantId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConsultantId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -197,7 +216,31 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ConsultantId");
+
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Domain.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConsultantId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("StarRating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsultantId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -378,6 +421,33 @@ namespace Persistence.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Domain.Message", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Consultant")
+                        .WithMany()
+                        .HasForeignKey("ConsultantId");
+
+                    b.Navigation("Consultant");
+                });
+
+            modelBuilder.Entity("Domain.Post", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Consultant")
+                        .WithMany()
+                        .HasForeignKey("ConsultantId");
+
+                    b.Navigation("Consultant");
+                });
+
+            modelBuilder.Entity("Domain.Review", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Consultant")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ConsultantId");
+
+                    b.Navigation("Consultant");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -434,6 +504,8 @@ namespace Persistence.Migrations
                     b.Navigation("Categories");
 
                     b.Navigation("Levels");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Domain.Category", b =>

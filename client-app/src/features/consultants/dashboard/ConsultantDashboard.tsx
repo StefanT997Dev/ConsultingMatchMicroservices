@@ -1,29 +1,24 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { Grid, List } from "semantic-ui-react";
-import { Category } from "../../../app/models/category";
-import { Post } from "../../../app/models/post";
+import { Grid, RatingProps, TextAreaProps } from "semantic-ui-react";
+import { useStore } from "../../../app/stores/store";
+import ConsultantDetails from "../details/ConsultantDetails";
+import ConsultantContactForm from "../form/ConsultantContact";
+import ConsultantList from "./ConsultantList";
 
-interface Props{
-    categories: Category[];
-    posts:Post[];
-}
+export default observer(function ConsultantDashboard() {
+  const {consultantStore} = useStore();
+  const {commonStore} = useStore();
 
-export default function ConsultantDashboard({categories,posts}:Props) {
   return (
     <Grid>
       <Grid.Column width="10">
-        <List>
-          {posts.map((post) => (
-            <List.Item key={post.id}>{post.title}</List.Item>
-          ))}
-        </List>
-
-        <List>
-          {categories.map((category) => (
-            <List.Item key={category.id}>{category.name}</List.Item>
-          ))}
-        </List>
+        {consultantStore.consultants?<ConsultantList/>:null}
+      </Grid.Column>
+      <Grid.Column width='6'>
+        {consultantStore.selectedConsultant && <ConsultantDetails/>}
+        {commonStore.displayConsultantContact?<ConsultantContactForm/>:null}
       </Grid.Column>
     </Grid>
   );
-}
+})

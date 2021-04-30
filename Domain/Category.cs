@@ -8,6 +8,6 @@ namespace Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int NumberOfConsultants { get; set; }
-        public ICollection<AppUserCategory> Consultants { get; set; }
+        public ICollection<AppUserCategory> Consultants { get; set; } = new List<AppUserCategory>();
     }
 }

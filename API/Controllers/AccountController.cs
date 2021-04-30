@@ -42,7 +42,6 @@ namespace API.Controllers
                     Token = _tokenService.CreateToken(user),
                     Username = user.UserName,
                     Image = "Some image",
-                    Rating = user.Rating,
                     Video = user.SalesVideo
                 };
             }

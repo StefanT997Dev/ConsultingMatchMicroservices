@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,19 +13,25 @@ namespace Application.Categories
 {
     public class List
     {
-        public class Query : IRequest<Result<List<Category>>> { }
+        public class Query : IRequest<Result<List<CategoryDto>>> { }
 
-        public class Handler : IRequestHandler<Query, Result<List<Category>>>
+        public class Handler : IRequestHandler<Query, Result<List<CategoryDto>>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
+                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<Result<List<Category>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<CategoryDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Category>>.Success(await _context.Categories.ToListAsync());
+                var categories = await _context.Categories
+                    .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+
+                return Result<List<CategoryDto>>.Success(categories);
             }
         }
     }

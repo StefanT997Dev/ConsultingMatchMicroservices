@@ -10,9 +10,11 @@ namespace Persistence
         {
         }
 
+        public DbSet<Review> Reviews {get;set;}
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<AppUserCategory> AppUserCategories { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

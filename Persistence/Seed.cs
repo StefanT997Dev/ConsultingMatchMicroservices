@@ -16,13 +16,13 @@ namespace Persistence
                 var users=new List<AppUser>
                 {
                     new AppUser{
-                        DisplayName="Bob", UserName="bob",Email="bob@test.com",Rating=5,Bio="I am Bob and I'm a software engineer"
+                        DisplayName="Bob", UserName="bob",Email="bob@test.com",Bio="I am Bob and I'm a software engineer"
                     },
                     new AppUser{
-                        DisplayName="Tom", UserName="tom",Email="tom@test.com",Rating=4,Bio="I am Tom and I'm a software engineer"
+                        DisplayName="Tom", UserName="tom",Email="tom@test.com",Bio="I am Tom and I'm a software engineer"
                     },
                     new AppUser{
-                        DisplayName="John", UserName="john",Email="john@test.com",Rating=3,Bio="I am John and I'm a software engineer"
+                        DisplayName="John", UserName="john",Email="john@test.com",Bio="I am John and I'm a software engineer"
                     }
                 };
 

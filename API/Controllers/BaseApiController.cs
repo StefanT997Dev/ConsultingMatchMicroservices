@@ -32,5 +32,15 @@ namespace API.Controllers
                 return NotFound();
             return BadRequest(result.Error);
         }
+
+        protected ActionResult HandleResultForCollections<T>(Result<ICollection<T>> result)
+        {
+            return Ok(result);
+            // if(result.IsSuccess && result.Value.Count!=0)
+            //     return Ok(result);
+            // if(result.IsSuccess && result.Value.Count==0)
+            //     return NotFound();
+            // return BadRequest(result.Error);
+        }
     }
 }

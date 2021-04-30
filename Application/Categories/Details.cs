@@ -2,32 +2,39 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Categories
 {
     public class Details
     {
-        public class Query : IRequest<Result<Category>>
+        public class Query : IRequest<Result<CategoryDto>>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<Category>>
+        public class Handler : IRequestHandler<Query, Result<CategoryDto>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
+                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<Result<Category>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<CategoryDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var category = await _context.Categories.FindAsync(request.Id);
+                var category = await _context.Categories
+                    .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(x=> x.Id ==request.Id);
 
-                return Result<Category>.Success(category);
+                return Result<CategoryDto>.Success(category);
             }
         }
     }

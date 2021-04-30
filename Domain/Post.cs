@@ -11,5 +11,6 @@ namespace Domain
         public string Picture { get; set; }
         public string Video { get; set; }
         public int NumberOfCredits { get; set; } 
+        public AppUser Consultant { get; set; }
     }
 }
