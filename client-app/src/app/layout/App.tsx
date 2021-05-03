@@ -15,26 +15,11 @@ import Calendly from './Calendly';
 const App =()=> {
   const {consultantStore}=useStore();
 
-  const [posts,setPosts]=useState<Post[]>([]);
-
-  useEffect(()=>{
-    axios.get('http://localhost:5000/posts')
-      .then(response=>{
-        setPosts(response.data.value);
-      })
-  },[])
-
   useEffect(()=>{
       consultantStore.loadConsultants();
+      consultantStore.currentConsultants=consultantStore.consultants;
   },[consultantStore])
 
-  useEffect(()=>{
-    axios.get('http://localhost:5000/consultants/58e5d331-ca78-4878-ac44-c3c9d0cf99fb/posts')
-      .then(response=>{
-        setPosts(response.data.value);
-      })
-  },[])
-  
   return (
     <div>
          <Navbar/>
@@ -44,6 +29,7 @@ const App =()=> {
           <Route exact path='/consultants' component={ConsultantDashboard}/>
           <Route path='/profile' component={Profile}/>
           <Route path='/consultants/hire' component={Calendly}/>
+          <Route path='/consultants/:id' component={Profile}/>
          </Container>
     </div>
   );

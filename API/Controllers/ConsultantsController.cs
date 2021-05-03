@@ -17,6 +17,13 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetConsultant(string id)
+        {
+            return HandleResult(await Mediator.Send(new Application.Consultants.Details.Query{Id=id}));
+        }
+
+        [AllowAnonymous]
         [HttpGet("{id}/reviews")]
         public async Task<IActionResult> GetReviews(string id)
         {

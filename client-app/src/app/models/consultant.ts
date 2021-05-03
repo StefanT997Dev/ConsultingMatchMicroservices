@@ -5,7 +5,9 @@ export interface Consultant{
     displayName:string;
     image: string;
     averageStarReview: number;
+    totalStarRating:number;
     numberOfReviews:number;
     bio: string;
     reviews:Review[];
+    categories:string[];
 }

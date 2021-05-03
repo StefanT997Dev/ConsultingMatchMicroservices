@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button, Card, Form, Image, Message, Rating, RatingProps, TextAreaProps } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 
@@ -33,7 +33,7 @@ export default observer(function ConsultantDetails() {
         </Card.Description>
       </Card.Content>
       <Rating icon='star' defaultRating={0} maxRating={5} onRate={(event,rating)=>rateAConsultant(event,rating)} size='huge'/>
-      <Form onSubmit={()=>{consultantStore.setReview(starRating,comment); consultantStore.postReviewForSelectedConsultant();}} success>
+      <Form onSubmit={()=>{consultantStore.setReview(starRating,comment); consultantStore.postReviewForSelectedConsultant(); consultantStore.updateReviewsForSelectedConsultant(starRating,comment)}} success>
           <Form.TextArea placeholder='Type your review here...'
             onChange={handleOnChangeTextReview} />
           <Message
@@ -44,8 +44,9 @@ export default observer(function ConsultantDetails() {
           <Button floated='right' positive type='submit' content='Add Review'/>
       </Form>
       <Card.Content extra>
-        <Button.Group widths='2'>
+        <Button.Group widths='3'>
           <Button as={NavLink} to='/consultants/hire' basic color='green' content='Hire'/>
+          <Button as={Link} to={`/consultants/${consultantStore.selectedConsultant?.id}`} basic color='black' content='View Profile'/>
           <Button onClick={commonStore.setDisplayConsultantContact} basic color='blue' content='Message'/>
         </Button.Group>
       </Card.Content>

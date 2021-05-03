@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { Category } from '../models/category';
 import { Consultant } from '../models/consultant';
 import { Message } from '../models/message';
 import { Review } from '../models/review';
@@ -19,7 +20,8 @@ const Consultants={
     list:()=>requests.get('/consultants'),
     postAReview:(selectedConsultant:Consultant | undefined,review:Review | undefined)=>
         requests.post("/consultants/"+selectedConsultant?.id+"/reviews",{starRating:review?.starRating,comment:review?.comment}),
-    getListOfReviews:(currentConsultant:Consultant|undefined) => requests.get("/consultants/"+currentConsultant?.id+"/reviews")
+    getListOfReviews:(currentConsultant:Consultant|undefined) => requests.get("/consultants/"+currentConsultant?.id+"/reviews"),
+    listForSelectedCategory:(selectedCategory:Category | undefined | null)=>requests.get("/categories/"+selectedCategory?.id+"/consultants")
 }
 
 const Categories={

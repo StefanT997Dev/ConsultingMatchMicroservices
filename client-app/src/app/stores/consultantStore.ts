@@ -1,6 +1,5 @@
-import { debug } from "console";
 import { makeAutoObservable } from "mobx";
-import React from "react";
+import React, { memo } from "react";
 import agent from "../api/agent";
 import { Consultant } from "../models/consultant";
 import { Review } from "../models/review";
@@ -10,26 +9,53 @@ export default class ConsultantStore{
     consultants:Consultant[]=[];
     selectedConsultant:Consultant | undefined = undefined;
     review: Review | undefined=undefined;
+    currentConsultants:Consultant[]=[];
+    text:string='a';
 
     constructor(){
         makeAutoObservable(this); 
     }
     
+    updateText=()=>{
+        this.text='b';
+    }
+
     loadConsultants= async ()=>{
        try{
             const consultants:Consultant[]= await agent.Consultants.list();
             consultants.forEach(consultant=>{
-            this.consultants.push(consultant);
-        })
+            this.updateConsultants(consultant);
+        });
        }catch(error){
            console.log(error);
        }
     }
 
-    fetchReviewsForConsultant= async (consultant:Consultant)=>{
-        const reviews:Review[]= await agent.Consultants.getListOfReviews(consultant);
+    updateConsultants=(consultant:Consultant)=>{
+        this.consultants.push(consultant)
+    }
 
-        return reviews;
+    updateReviewsForSelectedConsultant=(starRating:string | number | undefined,comment:string | number | undefined)=>{
+        this.setReview(starRating,comment);
+        for(let i=0;i<this.currentConsultants.length;i++){
+            if(this.currentConsultants[i].id===this.selectedConsultant?.id){
+                this.addReviewToConsultant(this.currentConsultants[i], this.review!);
+                let memoConsultant=this.currentConsultants[i];
+                this.currentConsultants.splice(i,1,memoConsultant);
+            }
+        }
+    }
+
+    addReviewToConsultant=(consultant: Consultant,review:Review)=>{
+        consultant.reviews.push(review);
+    }
+
+    loadConsultantsForSelectedCategory = async (activeCategory:string | undefined)=>{
+        try {
+            this.currentConsultants=this.consultants.filter(consultant=>consultant.categories[0] === activeCategory);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     selectConsultant = (id:string)=>{
@@ -45,15 +71,6 @@ export default class ConsultantStore{
             id:uuid(),
             starRating:starReview,
             comment:commentReview
-        }
-    }
-
-    getReviewsForConsultant = async () =>{
-        try{
-            const reviews:Review[]= await agent.Consultants.getListOfReviews(this.selectedConsultant);
-            return reviews;
-        }catch(error){
-            console.log(error);
         }
     }
 }

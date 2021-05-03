@@ -17,6 +17,7 @@
     "formik": "^2.2.6",
     "mobx": "^6.3.0",
     "mobx-react-lite": "^3.2.0",
+    "mobx-utils": "^6.0.4",
     "react": "^16.14.0",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^16.14.0",

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.DTOs;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,22 +15,24 @@ namespace Application.Reviews
 {
     public class List
     {
-        public class Query : IRequest<Result<List<Review>>>
+        public class Query : IRequest<Result<List<ReviewDto>>>
         {
             public string Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<List<Review>>>
+        public class Handler : IRequestHandler<Query, Result<List<ReviewDto>>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
+                _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<Result<List<Review>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ReviewDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<Review>>.Success(await _context.Reviews.Where(r => r.Consultant.Id==request.Id).ToListAsync());
+                return Result<List<ReviewDto>>.Success(await Common.GetUserReviews(_context,_mapper,request.Id));
             }
         }
     }

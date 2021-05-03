@@ -1,38 +1,72 @@
-import { constants } from "buffer";
-import { debug } from "console";
+import React, { useEffect, useState } from "react";
+import { Button, Item, Menu, MenuItemProps, Pagination, PaginationProps } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
-import React from "react";
-import { Item, Segment, Button, Label, Rating } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
+import ConsultantListItem from "./ConsultantListItem";
 
-export default observer(function ConsultantList(){
-    const {consultantStore}=useStore();
+export default observer(function ConsultantList() {
+  const { consultantStore } = useStore();
 
-    debugger
-    return(
-        <Segment>
-            <Item.Group divided>
-                {consultantStore.consultants.map(consultant=>(
-                    <Item key={consultant.id}>
-                        <Item.Content>
-                            <Item.Header as='a'>
-                                {consultant.displayName}
-                            </Item.Header>
-                            <Item.Meta>
-                                {consultant.bio}
-                            </Item.Meta>
-                            <Item.Description>
-                                <Rating icon='star' defaultRating={consultant.averageStarReview} maxRating={5} disabled size='huge'/>
-                                (Number of reviews: {consultant.numberOfReviews})
-                            </Item.Description>
-                            <Item.Extra>
-                                <Button onClick={()=>consultantStore.selectConsultant(consultant.id)} floated ='right' content='View' color='blue'/>
-                                <Label basic content={consultant.reviews[0].comment} />
-                            </Item.Extra>
-                        </Item.Content>
-                    </Item>
-                ))}
-            </Item.Group>
-        </Segment>
-    )
-})
+  const [activeItem, setActiveItem] = useState<string | undefined>("topRated"); 
+  const [activePage,setActivePage] = useState<any>(1);
+  const arrayForPagination:number[]=[0,3,6,9];
+
+  const handleItemClick = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    data: MenuItemProps
+  ) => {
+    setActiveItem(data.name);
+    data.name === "topRated" ? sortByTopRated() : sortByMostReviews();
+  };
+
+  const sortByMostReviews = () => {
+    consultantStore.currentConsultants.sort((a, b) =>
+      a.numberOfReviews < b.numberOfReviews ? 1 : -1
+    );
+  };
+  const sortByTopRated = () => {
+    consultantStore.currentConsultants.sort((a, b) =>
+      a.averageStarReview < b.averageStarReview ? 1 : -1
+    );
+    console.log(consultantStore.consultants);
+  };
+
+  const handlePageChange=(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, data: PaginationProps)=>{
+    setActivePage(data.activePage);
+  }
+  
+  return (
+    <div>
+      <Menu text>
+        <Menu.Item header>Sort By</Menu.Item>
+        <Menu.Item
+          name="topRated"
+          active={activeItem === "topRated"}
+          onClick={handleItemClick}
+        />
+        <Menu.Item
+          name="mostReviews"
+          active={activeItem === "mostReviews"}
+          onClick={handleItemClick}
+        />
+      </Menu>
+
+      <Item.Group divided>
+        {consultantStore.currentConsultants
+            .slice(activePage+arrayForPagination[activePage-1]-1,activePage==1?activePage*4:activePage*4-1).map((consultant) => (
+          <ConsultantListItem consultant={consultant} />
+        ))}
+      </Item.Group>
+
+      <Pagination
+        defaultActivePage={1}
+        onPageChange={handlePageChange}
+        firstItem={null}
+        lastItem={null}
+        pointing
+        secondary
+        totalPages={Math.ceil(consultantStore.consultants.length/4)}
+      />
+    </div>
+  );
+});

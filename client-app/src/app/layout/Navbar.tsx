@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { debug } from 'console';
+import React, { useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, Container, Input, Menu, MenuItemProps, SemanticCOLORS } from 'semantic-ui-react';
 import { SemanticWIDTHS } from 'semantic-ui-react/dist/commonjs/generic';
 import agent from '../api/agent';
 import { Category } from '../models/category';
+import { useStore } from '../stores/store';
 
 export default function Navbar(){
     const activeColor = 'blue';
 
+    const{consultantStore}=useStore();
+
     const [categories,setCategories]=useState<Category[]>([]);
-    const [activeCategory,setActiveCategory] = useState<string | undefined>(categories[0]?.name);
+    const [activeCategoryName,setActiveCategoryName] = useState<string | undefined>('Depression Consulting')
 
     useEffect(()=>{
         agent.Categories.list().then(response=>{
@@ -17,8 +21,8 @@ export default function Navbar(){
         })
     },[])
 
-    const handleActiveCategory = (event:React.MouseEvent<HTMLAnchorElement, MouseEvent>,data:MenuItemProps) =>{
-        setActiveCategory(data.name);
+    const handleActiveCategoryName = (event:React.MouseEvent<HTMLAnchorElement, MouseEvent>,data:MenuItemProps) =>{
+        setActiveCategoryName(data.name);
     }
     
     return(
@@ -40,15 +44,15 @@ export default function Navbar(){
                     <Menu.Item name='Logout' as={NavLink} to='/' exact/>
                 </Container>
             </Menu>
-            
+
             <Menu style={{marginTop:'1px',marginBottom:'0px'}} inverted widths={categories.length as SemanticWIDTHS}>
             {categories.map(category => (
             <Menu.Item
                 key={category.id}
                 name={category.name}
-                active={activeCategory===category.name}
+                active={activeCategoryName===category.name}
                 color={activeColor}
-                onClick={handleActiveCategory}
+                onClick={(event,data)=>{handleActiveCategoryName(event,data);consultantStore.loadConsultantsForSelectedCategory(activeCategoryName);}}
             />
             ))}
             </Menu>

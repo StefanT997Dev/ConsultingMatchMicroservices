@@ -7,6 +7,6 @@ namespace Domain
         public Guid Id { get; set; }
         public int StarRating { get; set; }
         public string Comment { get; set; }
-        public AppUser Consultant { get; set; }
+        public AppUser Consultant { get; set; } = new AppUser();
     }
 }
