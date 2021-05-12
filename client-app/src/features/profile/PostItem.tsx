@@ -1,23 +1,30 @@
 import React from "react";
-import { Item, Segment } from "semantic-ui-react";
+import { Input, Item, Segment } from "semantic-ui-react";
+import { Post } from "../../app/models/post";
 
-export default function PostItem() {
+interface Props {
+  post: Post;
+}
+
+export default function PostItem({ post }: Props) {
   return (
-    <Segment>
-      <Item.Group>
-        <Item>
-          <Item.Image
-            size="tiny"
-            circular
-            src={require("../../images/homersimpson.0.0.jpg")}
-            alt="photo"
-          />
-          <Item.Content>
-            <Item.Header>Post title</Item.Header>
-            <Item.Description>Post description</Item.Description>
-          </Item.Content>
-        </Item>
-      </Item.Group>
-    </Segment>
+    <div>
+      <Segment>
+        <Item.Group>
+          <Item>
+            <Item.Image
+              size="tiny"
+              circular
+              src={require("../../images/homersimpson.0.0.jpg")}
+              alt="photo"
+            />
+            <Item.Content>
+              <Item.Header>{post.title}</Item.Header>
+              <Item.Description>{post.description}</Item.Description>
+            </Item.Content>
+          </Item>
+        </Item.Group>
+      </Segment>
+    </div>
   );
 }

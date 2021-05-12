@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -13,6 +14,14 @@ namespace Application.Consultants
         {
             public string Id { get; set; }
             public Post Post { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(c => c.Post).SetValidator(new CreateAPostValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command,Result<Unit>>

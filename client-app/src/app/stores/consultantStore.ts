@@ -4,20 +4,23 @@ import agent from "../api/agent";
 import { Consultant } from "../models/consultant";
 import { Review } from "../models/review";
 import { v4 as uuid } from 'uuid';
+import { ConsultantSearchDto } from "../models/consultantSearchDto";
 
 export default class ConsultantStore{
     consultants:Consultant[]=[];
     selectedConsultant:Consultant | undefined = undefined;
     review: Review | undefined=undefined;
     currentConsultants:Consultant[]=[];
-    text:string='a';
+    filteredConsultants:ConsultantSearchDto[]=[];
 
     constructor(){
         makeAutoObservable(this); 
     }
-    
-    updateText=()=>{
-        this.text='b';
+
+    filterConsultants=async (consultantName:string | undefined)=>{
+        const consultants:ConsultantSearchDto[]=await agent.Consultants.search(consultantName);
+
+        this.filteredConsultants=consultants;
     }
 
     loadConsultants= async ()=>{
@@ -32,7 +35,7 @@ export default class ConsultantStore{
     }
 
     updateConsultants=(consultant:Consultant)=>{
-        this.consultants.push(consultant)
+        this.consultants.unshift(consultant)
     }
 
     updateReviewsForSelectedConsultant=(starRating:string | number | undefined,comment:string | number | undefined)=>{

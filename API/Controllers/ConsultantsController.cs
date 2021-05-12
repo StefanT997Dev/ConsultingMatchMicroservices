@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Application.Consultants;
+using Application.DTOs;
 using Application.Posts;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -49,6 +50,13 @@ namespace API.Controllers
         public async Task<IActionResult> PostAPost(string id,Post post)
         {
             return Ok(await Mediator.Send(new CreateAPost.Command{Id=id,Post=post}));
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Search(ConsultantSearchDto consultant)
+        {
+            return Ok(await Mediator.Send(new Search.Command{Consultant=consultant}));
         }
     }
 }

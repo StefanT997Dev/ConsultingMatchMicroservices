@@ -41,7 +41,7 @@ export default observer(function ConsultantListItem({ consultant }: Props) {
   }
 
   const [percentage,level]=calculateLevel(consultant.totalStarRating);
-  debugger
+
   return (
     <Segment.Group>
       <Segment>

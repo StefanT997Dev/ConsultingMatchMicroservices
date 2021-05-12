@@ -7,6 +7,11 @@ import ConsultantListItem from "./ConsultantListItem";
 export default observer(function ConsultantList() {
   const { consultantStore } = useStore();
 
+  useEffect(()=>{
+      consultantStore.loadConsultants();
+      consultantStore.currentConsultants=consultantStore.consultants;
+  },[consultantStore])
+  
   const [activeItem, setActiveItem] = useState<string | undefined>("topRated"); 
   const [activePage,setActivePage] = useState<any>(1);
   const arrayForPagination:number[]=[0,3,6,9];
@@ -24,11 +29,9 @@ export default observer(function ConsultantList() {
       a.numberOfReviews < b.numberOfReviews ? 1 : -1
     );
   };
+
   const sortByTopRated = () => {
-    consultantStore.currentConsultants.sort((a, b) =>
-      a.averageStarReview < b.averageStarReview ? 1 : -1
-    );
-    console.log(consultantStore.consultants);
+    consultantStore.currentConsultants.sort((a, b) => a.averageStarReview < b.averageStarReview ? 1 : -1);
   };
 
   const handlePageChange=(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, data: PaginationProps)=>{

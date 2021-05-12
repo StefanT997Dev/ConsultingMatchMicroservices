@@ -67,25 +67,12 @@ namespace Application.Categories
                         Image = consultant.AppUser.ProfilePicture,
                         Bio = consultant.AppUser.Bio,
                         NumberOfReviews = reviews.Count,
-                        AverageStarReview = calculateAverageReview(listOfReviewsDtoForConsultant),
+                        AverageStarReview = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForConsultant).Item2,
                         Reviews = listOfReviewsDtoForConsultant
                     });
                 }
 
                 return Result<ICollection<Profiles.Profile>>.Success(listOfProfiles);
-            }
-
-            private int calculateAverageReview(List<ReviewDto> listOfReviews)
-            {
-                int totalStarRating = 0;
-                int averageStarRating = 0;
-                foreach (var review in listOfReviews)
-                {
-                    totalStarRating += review.StarRating;
-                }
-                averageStarRating = totalStarRating / listOfReviews.Count;
-
-                return averageStarRating;
             }
         }
     }
