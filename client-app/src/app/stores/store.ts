@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import CategoryStore from "./categoryStore";
+import CommentStore from "./commentStore";
 import CommonStore from "./commonStore";
 import ConsultantStore from "./consultantStore";
 import MessageStore from "./messageStore";
@@ -15,6 +16,7 @@ interface Store{
     messageStore:MessageStore;
     postStore:PostStore;
     categoryStore:CategoryStore;
+    commentStore:CommentStore;
 }
 
 export const store:Store = {
@@ -24,7 +26,8 @@ export const store:Store = {
     commonStore:new CommonStore(),
     messageStore:new MessageStore(),
     postStore:new PostStore(),
-    categoryStore:new CategoryStore()
+    categoryStore:new CategoryStore(),
+    commentStore:new CommentStore()
 }
 
 export const StoreContext = createContext(store);

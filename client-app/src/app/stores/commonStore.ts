@@ -1,12 +1,16 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 
 export default class CommonStore{
     displayConsultantContact:boolean=false;
-    token:string|null=null;
+    token:string|null=window.localStorage.getItem('jwt');
     appLoaded=false;
 
     constructor(){
         makeAutoObservable(this);
+
+        // reaction(
+        //     ()=>
+        // )
     }
 
     setDisplayConsultantContact=()=>{

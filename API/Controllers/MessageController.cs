@@ -7,7 +7,6 @@ namespace API.Controllers
 {
     public class MessageController:BaseApiController
     {
-        [AllowAnonymous]
         [HttpPost("{consultantId}")]
         public async Task<IActionResult> Send(string consultantId,Message message)
         {

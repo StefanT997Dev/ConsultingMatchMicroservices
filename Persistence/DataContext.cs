@@ -15,6 +15,8 @@ namespace Persistence
         public DbSet<Post> Posts { get; set; }
         public DbSet<AppUserCategory> AppUserCategories { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Comment> Comments{get;set;}
+        public DbSet<UserFollowing> UserFollowings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +45,26 @@ namespace Persistence
                 .HasOne(u => u.Level)
                 .WithMany(c => c.Consultants)
                 .HasForeignKey(al => al.LevelId);
+
+            builder.Entity<Comment>()
+                .HasOne(c => c.Post)
+                .WithMany(p => p.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserFollowing>(b =>
+            {
+                b.HasKey(k => new{k.ObserverId,k.TargetId});
+
+                b.HasOne(o => o.Observer)
+                    .WithMany(f => f.Followings)
+                    .HasForeignKey(o => o.ObserverId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(o => o.Target)
+                    .WithMany(f => f.Followers)
+                    .HasForeignKey(o => o.TargetId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
         }
     }
 }

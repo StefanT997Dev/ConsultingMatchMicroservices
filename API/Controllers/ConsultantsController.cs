@@ -31,7 +31,6 @@ namespace API.Controllers
             return HandleResultForLists(await Mediator.Send(new Application.Reviews.List.Query{Id=id}));
         }
 
-        [AllowAnonymous]
         [HttpPost("{id}/reviews")]
         public async Task<IActionResult> PostReview(string id,Review review)
         {
@@ -45,7 +44,6 @@ namespace API.Controllers
             return HandleResultForLists(await Mediator.Send(new ListForConsultant.Query{Id=id}));
         }
 
-        [AllowAnonymous]
         [HttpPost("{id}/posts")]
         public async Task<IActionResult> PostAPost(string id,Post post)
         {

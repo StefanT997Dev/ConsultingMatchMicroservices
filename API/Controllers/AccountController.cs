@@ -73,12 +73,20 @@ namespace API.Controllers
 
             if(result.Succeeded)
             {
+                var addRoleResult = await _userManager.AddToRoleAsync(user,registerDto.Role);
+
+                if(!addRoleResult.Succeeded)
+                {
+                    return BadRequest("Role does not exist or user hasn't selected the role");
+                }
+
                 return new UserDto
                 {
                     DisplayName=user.DisplayName,
                     Image=null,
                     Token=_tokenService.CreateToken(user),
-                    Username=user.UserName
+                    Username=user.UserName,
+                    Role=registerDto.Role
                 };
             }
 

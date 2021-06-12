@@ -26,6 +26,7 @@ namespace API.Extensions
             services.AddMediatR(typeof(Create.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<IUserAccessor,UserAccessor>();
+            services.AddSignalR();
 
             return services;
         }

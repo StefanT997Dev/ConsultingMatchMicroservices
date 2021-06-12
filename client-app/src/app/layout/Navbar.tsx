@@ -24,6 +24,7 @@ export default observer(function Navbar() {
 
   const { consultantStore } = useStore();
   const { categoryStore } = useStore();
+  const {userStore:{user,logout}}=useStore();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,7 +45,7 @@ export default observer(function Navbar() {
 
     consultantStore.filterConsultants(data.value);
   };
-  debugger
+
   return (
     <div>
       <Menu style={{ marginTop: "0px", marginBottom: "0px" }} inverted>
@@ -73,7 +74,10 @@ export default observer(function Navbar() {
             </Grid>
           </Menu.Item>
           <Menu.Item name="Errors" as={NavLink} to="/errors" />
-          <Menu.Item name="Logout" as={NavLink} to="/" exact />
+          <Menu.Item position='right'>
+            <Image src={user?.image || '/images/homersimpson.0.0.jpg'} avatar spaced='right'/>
+            
+          </Menu.Item>
         </Container>
       </Menu>
 

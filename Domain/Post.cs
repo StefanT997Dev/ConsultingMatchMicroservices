@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection.Metadata;
 
 namespace Domain
@@ -12,5 +13,6 @@ namespace Domain
         public string Video { get; set; }
         public int NumberOfCredits { get; set; } 
         public AppUser Consultant { get; set; }
+        public ICollection<Comment> Comments { get; set; }=new List<Comment>();
     }
 }

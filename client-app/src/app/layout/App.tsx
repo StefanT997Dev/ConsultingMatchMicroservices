@@ -11,6 +11,7 @@ import Calendly from "./Calendly";
 import TestErrors from "../../features/errors/TestError";
 import { ToastContainer } from "react-toastify";
 import NotFound from "../../features/errors/NotFound";
+import RegisterForm from "../../features/users/RegisterForm";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/login" component={LoginForm} />
+          <Route path="/register" component={RegisterForm} />
           <Route exact path="/consultants" component={ConsultantDashboard} />
           <Route path="/profile" component={Profile} />
           <Route path="/consultants/hire" component={Calendly} />
