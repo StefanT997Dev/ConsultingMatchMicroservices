@@ -17,6 +17,8 @@ namespace Persistence
         public DbSet<Message> Messages { get; set; }
         public DbSet<Comment> Comments{get;set;}
         public DbSet<UserFollowing> UserFollowings { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<CategorySkill> CategorySkills { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -65,6 +67,18 @@ namespace Persistence
                     .HasForeignKey(o => o.TargetId)
                     .OnDelete(DeleteBehavior.NoAction);
             });
+
+            builder.Entity<CategorySkill>(x => x.HasKey(cs => new { cs.SkillId , cs.CategoryId }));
+
+            builder.Entity<CategorySkill>()
+                .HasOne(cs => cs.Skill)
+                .WithMany(s => s.Categories)
+                .HasForeignKey(cs => cs.SkillId);
+
+            builder.Entity<CategorySkill>()
+                .HasOne(cs => cs.Category)
+                .WithMany(c => c.Skills)
+                .HasForeignKey(cs => cs.CategoryId);
         }
     }
 }
