@@ -23,6 +23,9 @@ namespace Application.Core
                 .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.ProfilePicture));
             CreateMap<AppUser,UserDto>();
+            CreateMap<Skill,CategorySkill>()
+                .ForMember(cs=>cs.SkillId,o =>o.MapFrom(s => s.Id));
+            CreateMap<Skill,SkillDto>();
         }
     }
 }
