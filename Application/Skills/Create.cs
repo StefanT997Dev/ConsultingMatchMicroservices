@@ -30,6 +30,8 @@ namespace Application.Skills
             {
                 var category = await _context.Categories.FindAsync(request.CategoryId);
 
+                _context.Skills.Add(request.Skill);
+
                 category.Skills.Add(_mapper.Map<CategorySkill>(request.Skill));
 
                 await _context.SaveChangesAsync();

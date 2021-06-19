@@ -15,5 +15,12 @@ namespace API.Controllers
         {
             return Ok(await Mediator.Send(new Create.Command{CategoryId=categoryId,Skill=skill}));
         }
+
+        [AllowAnonymous]
+        [HttpGet("{categoryId}")]
+        public async Task<IActionResult> GetSkills(Guid categoryId)
+        {
+            return HandleResult(await Mediator.Send(new List.Query{CategoryId=categoryId}));
+        }
     }
 }
