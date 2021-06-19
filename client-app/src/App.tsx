@@ -5,6 +5,7 @@ import ConsultantDashboard from "./components/ConsultantDashboard/ConsultantDash
 import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router-dom";
 import HomePage from "./containers/HomePage/HomePage";
+import LandingPage from "./containers/LandingPage/LandingPage";
 import LoginForm from "./forms/LoginForm/LoginForm";
 import Profile from "./components/Profile/Profile";
 import Calendly from "./components/Calendy/Calendly";
@@ -18,9 +19,10 @@ const App = () => {
     <div>
       <ToastContainer position="bottom-right" hideProgressBar />
       <Navbar />
-      <Container style={{ marginTop: "7em" }}>
+      <div /*style={{ marginTop: "7em" }}*/>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={LandingPage} />
+          <Route path="/authentication" component={HomePage} />
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegisterForm} />
           <Route exact path="/consultants" component={ConsultantDashboard} />
@@ -30,7 +32,7 @@ const App = () => {
           <Route path="/errors" component={TestErrors} />
           <Route component={NotFound} />
         </Switch>
-      </Container>
+      </div>
     </div>
   );
 };

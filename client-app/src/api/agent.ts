@@ -14,7 +14,7 @@ axios.interceptors.response.use(async response =>{
     return response;
     // Ako vrati bilo sta sem 200 ide u error
 },(error:AxiosError)=>{
-  return { data: { value: {}}};
+  // return { data: { value: {}}};
     const{data,status}=error.response!;
     switch(status){
         case 400:
