@@ -52,7 +52,6 @@ namespace Application.Categories
                     {
                         listOfReviewsDtoForConsultant.Add(new ReviewDto
                         {
-                            Id = review.Id,
                             StarRating = review.StarRating,
                             Comment = review.Comment
                         });

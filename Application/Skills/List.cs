@@ -29,10 +29,10 @@ namespace Application.Skills
 
             public async Task<Result<List<SkillDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var category = _context.Categories
+                var category = await _context.Categories
                     .Include(c => c.Skills)
                     .ThenInclude(cs => cs.Skill)
-                    .FirstOrDefault(c => c.Id==request.CategoryId);
+                    .FirstOrDefaultAsync(c => c.Id==request.CategoryId);
 
                 var listOfSkills = new List<SkillDto>();
 
