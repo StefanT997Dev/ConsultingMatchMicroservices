@@ -49,7 +49,10 @@ export default observer(function Navbar() {
     <div>
       <Menu style={{ marginTop: "0px", marginBottom: "0px" }} inverted>
         <Container>
-          <Menu.Item header as={NavLink} to="/" exact>
+          <Menu.Item as={NavLink} to="/" exact>
+            Home
+          </Menu.Item>
+          <Menu.Item header as={NavLink} to="/authentication" exact>
             <img src="/assets/logo.png" alt="logo" />
             ConsultingMatch
           </Menu.Item>

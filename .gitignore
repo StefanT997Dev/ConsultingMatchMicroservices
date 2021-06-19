@@ -442,3 +442,10 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+
+##
+## client app
+##
+*.yarn.lock
+*appsettings.Development.json
