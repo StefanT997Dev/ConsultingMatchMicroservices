@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.DTOs;
 using Application.Interfaces;
 using Domain;
 using MediatR;
@@ -14,7 +15,7 @@ namespace Application.Reviews
         public class Command : IRequest
         {
             public string Id { get; set; }
-            public Review Review { get; set; }
+            public ReviewDto Review { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
