@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Categories;
+using Application.DTOs;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace API.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(Category category)
+        public async Task<IActionResult> CreateCategory(CreateCategoryDto category)
         {
             return Ok(await Mediator.Send(new Create.Command{Category=category}));
         }
@@ -39,7 +40,7 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost("choose")]
-        public async Task<IActionResult> PickACategoryForConsultant(AppUserCategory appUserCategory)
+        public async Task<IActionResult> PickACategoryForConsultant(AppUserCategoryDto appUserCategory)
         {
             return Ok(await Mediator.Send(new Pick.Command{AppUserCategory=appUserCategory}));
         }

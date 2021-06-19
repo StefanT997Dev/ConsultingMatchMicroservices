@@ -4,9 +4,11 @@ namespace Domain
 {
     public class Review
     {
-        public Guid Id { get; set; }
+        public string ConsultantId { get; set; }
+        public AppUser Consultant { get; set; } 
+        public string ClientId { get; set; }
+        public AppUser Client { get; set; }
         public int StarRating { get; set; }
         public string Comment { get; set; }
-        public AppUser Consultant { get; set; } = new AppUser();
     }
 }

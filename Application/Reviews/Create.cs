@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Interfaces;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Reviews
@@ -18,8 +20,10 @@ namespace Application.Reviews
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
+                _userAccessor = userAccessor;
                 _context = context;
             }
 
@@ -27,11 +31,14 @@ namespace Application.Reviews
             {
                 var consultant = await _context.Users.FindAsync(request.Id);
 
-                var review = new Review{
-                    Id=request.Review.Id,
-                    StarRating=request.Review.StarRating,
-                    Comment=request.Review.Comment,
-                    Consultant=consultant
+                var client = await _context.Users.FirstOrDefaultAsync(c => c.DisplayName == _userAccessor.GetUsername());
+
+                var review = new Review
+                {
+                    StarRating = request.Review.StarRating,
+                    Comment = request.Review.Comment,
+                    Consultant = consultant,
+                    Client=client
                 };
 
                 _context.Reviews.Add(review);

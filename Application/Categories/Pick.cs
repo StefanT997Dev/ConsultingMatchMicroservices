@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Application.DTOs;
 using Domain;
 using MediatR;
 using Persistence;
@@ -10,7 +11,7 @@ namespace Application.Categories
     {
         public class Command : IRequest
         {
-            public AppUserCategory AppUserCategory { get; set; }
+            public AppUserCategoryDto AppUserCategory { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -23,7 +24,13 @@ namespace Application.Categories
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.AppUserCategories.Add(request.AppUserCategory);
+                var appUserCategory = new AppUserCategory
+                {
+                    AppUserId=request.AppUserCategory.ConsultantId,
+                    CategoryId=request.AppUserCategory.CategoryId
+                };
+
+                _context.AppUserCategories.Add(appUserCategory);
 
                 await _context.SaveChangesAsync();
 

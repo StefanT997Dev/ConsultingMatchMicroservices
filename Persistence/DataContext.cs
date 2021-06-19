@@ -68,6 +68,21 @@ namespace Persistence
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
+            builder.Entity<Review>(b =>
+            {
+                b.HasKey(r => new{r.ConsultantId,r.ClientId});
+
+                b.HasOne(r => r.Consultant)
+                    .WithMany(cl => cl.ClientReviews)
+                    .HasForeignKey(r => r.ConsultantId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne(r => r.Client)
+                    .WithMany(c => c.ConsultantReviews)
+                    .HasForeignKey(r => r.ClientId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
             builder.Entity<CategorySkill>(x => x.HasKey(cs => new { cs.SkillId , cs.CategoryId }));
 
             builder.Entity<CategorySkill>()

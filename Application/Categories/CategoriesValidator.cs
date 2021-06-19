@@ -1,9 +1,10 @@
+using Application.DTOs;
 using Domain;
 using FluentValidation;
 
 namespace Application.Categories
 {
-    public class CategoriesValidator : AbstractValidator<Category>
+    public class CategoriesValidator : AbstractValidator<CreateCategoryDto>
     {
         public CategoriesValidator()
         {

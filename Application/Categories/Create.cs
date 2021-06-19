@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Application.DTOs;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -11,7 +12,7 @@ namespace Application.Categories
     {
         public class Command : IRequest
         {
-            public Category Category { get; set; }
+            public CreateCategoryDto Category { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -32,7 +33,13 @@ namespace Application.Categories
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                _context.Categories.Add(request.Category);
+                var category = new Category
+                {
+                    Id=request.Category.Id,
+                    Name=request.Category.Name
+                };
+
+                _context.Categories.Add(category);
 
                 await _context.SaveChangesAsync();
 

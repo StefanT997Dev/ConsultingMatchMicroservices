@@ -7,7 +7,6 @@ namespace Application.DTOs
         [JsonProperty("title")]
         public string Id { get; set; }
         [JsonProperty("description")]
-
         public string DisplayName { get; set; }
     }
 }
