@@ -30,9 +30,10 @@ namespace API.Controllers
         {
             return HandleResultForLists(await Mediator.Send(new Application.Reviews.List.Query{Id=id}));
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("{id}/reviews")]
-        public async Task<IActionResult> PostReview(string id,Review review)
+        public async Task<IActionResult> PostReview(string id,ReviewDto review)
         {
             return Ok(await Mediator.Send(new Application.Reviews.Create.Command{Id=id,Review=review}));
         }
