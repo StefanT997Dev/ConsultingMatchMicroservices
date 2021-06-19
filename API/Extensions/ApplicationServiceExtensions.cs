@@ -28,6 +28,8 @@ namespace API.Extensions
             services.AddScoped<IUserAccessor,UserAccessor>();
             services.AddSignalR();
 
+            services.AddHttpContextAccessor();
+
             return services;
         }
     }

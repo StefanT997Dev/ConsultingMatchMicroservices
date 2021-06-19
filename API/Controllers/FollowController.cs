@@ -7,6 +7,7 @@ namespace API.Controllers
 {
     public class FollowController:BaseApiController
     {
+        [AllowAnonymous]
         [HttpPost("{username}")]
         public async Task<IActionResult> Follow(string username)
         {
