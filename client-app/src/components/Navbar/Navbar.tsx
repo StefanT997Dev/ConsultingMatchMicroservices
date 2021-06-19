@@ -30,7 +30,7 @@ export default observer(function Navbar() {
 
   useEffect(() => {
     agent.Categories.list().then((response) => {
-      // setCategories(response);
+      setCategories(response);
       setCategories([]);
     });
   }, []);
