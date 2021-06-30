@@ -32,7 +32,14 @@ namespace Application.Reviews
 
             public async Task<Result<List<ReviewDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Result<List<ReviewDto>>.Success(await Common.GetUserReviews(_context,_mapper,request.Id));
+                var reviews = await Common.GetUserReviews(_context,_mapper,request.Id);
+
+                if(reviews.Count==0)
+                {
+                    return Result<List<ReviewDto>>.Failure("No reviews yet");
+                }
+
+                return Result<List<ReviewDto>>.Success(reviews);
             }
         }
     }
