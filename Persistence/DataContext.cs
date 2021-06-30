@@ -14,6 +14,7 @@ namespace Persistence
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<AppUserCategory> AppUserCategories { get; set; }
+        public DbSet<AppUserSkill> AppUserSkills { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Comment> Comments{get;set;}
         public DbSet<UserFollowing> UserFollowings { get; set; }
@@ -35,6 +36,18 @@ namespace Persistence
                 .HasOne(u => u.Category)
                 .WithMany(c => c.Consultants)
                 .HasForeignKey(ac => ac.CategoryId);
+
+            builder.Entity<AppUserSkill>(x => x.HasKey(aus => new { aus.ConsultantId, aus.SkillId }));
+
+            builder.Entity<AppUserSkill>()
+                .HasOne(aus => aus.Consultant)
+                .WithMany(c => c.Skills)
+                .HasForeignKey(aus => aus.ConsultantId);
+
+            builder.Entity<AppUserSkill>()
+                .HasOne(aus => aus.Skill)
+                .WithMany(s => s.Consultants)
+                .HasForeignKey(aus => aus.SkillId);
 
             builder.Entity<AppUserLevel>(x=> x.HasKey(al => new{al.AppUserId,al.LevelId}));
 

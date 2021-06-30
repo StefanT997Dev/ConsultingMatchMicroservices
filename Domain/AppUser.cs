@@ -10,6 +10,7 @@ namespace Domain
         public string SalesVideo { get; set; }
         public string ProfilePicture { get; set; }
         public ICollection<AppUserCategory> Categories { get; set; }
+        public ICollection<AppUserSkill> Skills { get; set; }
         public ICollection<AppUserLevel> Levels { get; set; }
         public ICollection<Review> ConsultantReviews { get; set; }
         public ICollection<Review> ClientReviews { get; set; }

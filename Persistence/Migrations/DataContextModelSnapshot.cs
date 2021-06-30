@@ -129,6 +129,21 @@ namespace Persistence.Migrations
                     b.ToTable("AppUserLevel");
                 });
 
+            modelBuilder.Entity("Domain.AppUserSkill", b =>
+                {
+                    b.Property<string>("ConsultantId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("SkillId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ConsultantId", "SkillId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("AppUserSkills");
+                });
+
             modelBuilder.Entity("Domain.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -483,6 +498,25 @@ namespace Persistence.Migrations
                     b.Navigation("Level");
                 });
 
+            modelBuilder.Entity("Domain.AppUserSkill", b =>
+                {
+                    b.HasOne("Domain.AppUser", "Consultant")
+                        .WithMany("Skills")
+                        .HasForeignKey("ConsultantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Skill", "Skill")
+                        .WithMany("Consultants")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consultant");
+
+                    b.Navigation("Skill");
+                });
+
             modelBuilder.Entity("Domain.CategorySkill", b =>
                 {
                     b.HasOne("Domain.Category", "Category")
@@ -647,6 +681,8 @@ namespace Persistence.Migrations
                     b.Navigation("Followings");
 
                     b.Navigation("Levels");
+
+                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("Domain.Category", b =>
@@ -669,6 +705,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Skill", b =>
                 {
                     b.Navigation("Categories");
+
+                    b.Navigation("Consultants");
                 });
 #pragma warning restore 612, 618
         }
