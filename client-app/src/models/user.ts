@@ -1,5 +1,5 @@
 export interface User{
-    id?: string,
+    id?: string | undefined,
     username?:string;
     displayName:string;
     email?:string;

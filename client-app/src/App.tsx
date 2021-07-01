@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import NotFound from "./components/NotFoundError/NotFound";
 import RegisterForm from "./forms/RegisterForm/RegisterForm";
 import CategoriesForm from "./forms/CategoriesForm/CategoriesForm";
+import SkillsForm from "./forms/SkillsForm/SkillsForm";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegisterForm} />
           <Route path="/categories" component={CategoriesForm} />
+          <Route path="/skills" component={SkillsForm} />
           <Route exact path="/consultants" component={ConsultantDashboard} />
           <Route path="/profile" component={Profile} />
           <Route path="/consultants/hire" component={Calendly} />

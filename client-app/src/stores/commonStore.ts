@@ -15,6 +15,11 @@ export default class CommonStore{
         // )
     }
 
+    getUserObject = ()=>{
+        const userObject:User = JSON.parse(this.user!);
+        return userObject;
+    }
+
     setDisplayConsultantContact=()=>{
         this.displayConsultantContact=!this.displayConsultantContact;
     }

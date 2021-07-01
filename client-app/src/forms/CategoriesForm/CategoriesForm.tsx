@@ -15,6 +15,7 @@ import FieldTextInput from "../../components/FieldTextInput/FieldTextInput";
 import { required } from "../../util/validators";
 import { useStore } from "../../stores/store";
 import agent from "../../api/agent";
+import { v4 as uuid } from 'uuid';
 
 import "./CategoriesForm.scss";
 
@@ -32,8 +33,7 @@ const CategoriesForm: React.FC<CategoriesForm> = (props) => {
     useState<boolean>(false);
   const [addCategoryError, setAddCategoryError] = useState<string>("");
 
-  const { userStore, categoryStore } = useStore();
-  console.log(userStore.user);
+  const { commonStore, categoryStore } = useStore();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -52,13 +52,19 @@ const CategoriesForm: React.FC<CategoriesForm> = (props) => {
   }, []);
 
   const addNewCategory = async (name: string) => {
-    //TODO: need to check with Stefan to retrieve userId with other user data
-    // when logging in or register
-    return;
     try {
       setAddCategoryInProgress(true);
       setAddCategoryError("");
-      await categoryStore.addCategory("id", name);
+
+      const categoryId=uuid();
+
+      const response = await categoryStore.addCategory(categoryId, name);
+
+      if(response.isSuccess)
+      {
+        setCategories([...categories,{id:categoryId,name:name}]);
+      }
+
       setIsOpenNewCategory(false);
     } catch (e) {
       setAddCategoryError(e.toString());
@@ -66,6 +72,10 @@ const CategoriesForm: React.FC<CategoriesForm> = (props) => {
       setAddCategoryInProgress(false);
     }
   };
+
+  const chooseCategory=async(consultantId:string | undefined,categoryId:string)=>{
+    await categoryStore.chooseCategory(consultantId,categoryId);
+  }
 
   return fetchCategoriesInProgress ? (
     <Dimmer active inverted>
@@ -77,7 +87,7 @@ const CategoriesForm: React.FC<CategoriesForm> = (props) => {
     <Container textAlign="center" className="categories-form">
       <div className="categories-form__form">
         <FinalForm
-          onSubmit={(values: any) => console.log("values", values)}
+          onSubmit={(values: any) => {categoryStore.setSelectedCategory(values.categoryId);chooseCategory(commonStore.getUserObject().id,values.categoryId)}}
           render={({ handleSubmit, valid, values, submitting }) => (
             <Form onSubmit={handleSubmit}>
               <Header as="h1">Choose category</Header>
@@ -88,7 +98,7 @@ const CategoriesForm: React.FC<CategoriesForm> = (props) => {
                     name="categoryId"
                     value={c.id}
                     label={c.name}
-                    validate={required("You must select atlest one category.")}
+                    validate={required("You must select at least one category.")}
                   />
                 ))}
               </div>

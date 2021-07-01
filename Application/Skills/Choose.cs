@@ -31,6 +31,8 @@ namespace Application.Skills
             {
                 var consultant = await _context.Users.FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUsername());
 
+                var appUserSkillsList = new List<AppUserSkill>();
+
                 foreach (var skill in request.Skills)
                 {
                     var appUserSkill = new AppUserSkill
@@ -39,8 +41,10 @@ namespace Application.Skills
                         SkillId = skill.Id
                     };
 
-                    _context.AppUserSkills.Add(appUserSkill);
+                    appUserSkillsList.Add(appUserSkill);
                 }
+
+                _context.AppUserSkills.AddRange(appUserSkillsList);
 
                 await _context.SaveChangesAsync();
 

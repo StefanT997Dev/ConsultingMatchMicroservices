@@ -25,6 +25,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Query{Id=id}));
         }
         
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto category)
         {

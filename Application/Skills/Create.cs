@@ -39,7 +39,7 @@ namespace Application.Skills
 
                 _context.Skills.Add(skill);
 
-                category.Skills.Add(_mapper.Map<CategorySkill>(request.Skill));
+                _context.CategorySkills.Add(new CategorySkill{CategoryId=category.Id,SkillId=skill.Id});
 
                 await _context.SaveChangesAsync();
 

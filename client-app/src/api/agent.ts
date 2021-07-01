@@ -74,7 +74,8 @@ const Consultants={
 
 const Categories={
     list:()=>requests.get('/categories',{}),
-    add:(id: string, name: string)=>requests.post('/categories',{id,name}),
+    add:(id: string | undefined, name: string)=>requests.post('/categories',{id,name}),
+    choose:(consultantId:string | undefined, categoryId:string)=>requests.post('/categories/choose',{consultantId,categoryId})
 }
 
 const Messages={
@@ -92,12 +93,17 @@ const Admin={
     deleteUser: (email: string | undefined) => requests.del('/admin',{email}),
 }
 
+const Skills={
+    list:(categoryId:string | undefined)=>requests.get(`/skills/${categoryId}`,{})
+}
+
 const agent={
     Consultants,
     Categories,
     Messages,
     Account,
-    Admin
+    Admin,
+    Skills
 }
 
 export default agent;

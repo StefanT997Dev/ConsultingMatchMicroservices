@@ -6,6 +6,7 @@ import ConsultantStore from "./consultantStore";
 import MessageStore from "./messageStore";
 import PostStore from "./postStore";
 import ReviewStore from "./reviewStore";
+import SkillStore from "./skillStore";
 import UserStore from "./userStore";
 
 interface Store{
@@ -17,6 +18,7 @@ interface Store{
     postStore:PostStore;
     categoryStore:CategoryStore;
     commentStore:CommentStore;
+    skillStore:SkillStore
 }
 
 export const store:Store = {
@@ -27,7 +29,8 @@ export const store:Store = {
     messageStore:new MessageStore(),
     postStore:new PostStore(),
     categoryStore:new CategoryStore(),
-    commentStore:new CommentStore()
+    commentStore:new CommentStore(),
+    skillStore:new SkillStore()
 }
 
 console.log('store', store);

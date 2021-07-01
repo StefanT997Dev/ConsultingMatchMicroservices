@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core;
 using Application.DTOs;
 using Domain;
 using FluentValidation;
@@ -10,7 +11,7 @@ namespace Application.Categories
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public CreateCategoryDto Category { get; set; }
         }
@@ -23,7 +24,7 @@ namespace Application.Categories
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command,Result<Unit>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -31,7 +32,7 @@ namespace Application.Categories
                 _context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var category = new Category
                 {
@@ -41,9 +42,13 @@ namespace Application.Categories
 
                 _context.Categories.Add(category);
 
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync()>0;
 
-                return Unit.Value;
+                if(result)
+                {
+                    return Result<Unit>.Success(Unit.Value);
+                }
+                return Result<Unit>.Failure("Failed to add a new category");
             }
         }
     }

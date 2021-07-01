@@ -53,9 +53,9 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Search(ConsultantSearchDto consultant)
+        public async Task<IActionResult> Search(SkillDto skill)
         {
-            return Ok(await Mediator.Send(new Search.Command{Consultant=consultant}));
+            return Ok(await Mediator.Send(new Search.Command{Skill=skill}));
         }
     }
 }
