@@ -6,16 +6,16 @@ using AutoMapper;
 using MediatR;
 using Persistence;
 
-namespace Application.Consultants
+namespace Application.Mentors
 {
     public class Details
     {
-        public class Query : IRequest<Result<ConsultantDisplayDto>>
+        public class Query : IRequest<Result<MentorDisplayDto>>
         {
             public string Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<ConsultantDisplayDto>>
+        public class Handler : IRequestHandler<Query, Result<MentorDisplayDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -25,30 +25,30 @@ namespace Application.Consultants
                 _context = context;
             }
 
-            public async Task<Result<ConsultantDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<MentorDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users.FindAsync(request.Id);
 
                 var listOfCategoryNames = await Common.GetCategoriesForUser(_context, user);
 
-                var listOfReviewsDtoForConsultant = await Common.GetUserReviews(_context, _mapper, user.Id);
+                var listOfReviewsDtoForMentor = await Common.GetUserReviews(_context, _mapper, user.Id);
 
-                var result = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForConsultant);
+                var result = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForMentor);
 
-                var consultantDisplayDto = new ConsultantDisplayDto
+                var MentorDisplayDto = new MentorDisplayDto
                 {
                     Id = user.Id,
                     DisplayName = user.DisplayName,
                     Image = user.ProfilePicture,
                     Bio = user.Bio,
-                    NumberOfReviews = listOfReviewsDtoForConsultant.Count,
+                    NumberOfReviews = listOfReviewsDtoForMentor.Count,
                     AverageStarReview = result.Item2,
-                    Reviews = listOfReviewsDtoForConsultant,
-                    TotalStarRating = result.Item1,
-                    Categories = listOfCategoryNames
+                    Reviews = listOfReviewsDtoForMentor,
+                    TotalStarRating = result.Item1
+                    // Categories = listOfCategoryNames
                 };
 
-                return Result<ConsultantDisplayDto>.Success(consultantDisplayDto);
+                return Result<MentorDisplayDto>.Success(MentorDisplayDto);
             }
         }
     }

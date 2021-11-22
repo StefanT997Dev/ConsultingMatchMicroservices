@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Application.Core;
+using Application.Core.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,15 @@ namespace API.Controllers
             if(result.IsSuccess && result.Value.Count!=0)
                 return Ok(result);
             if(result.IsSuccess && result.Value.Count==0)
+                return NotFound();
+            return BadRequest(result.Error);
+        }
+
+        protected ActionResult HandlePagedListResult<T>(PagedResult<List<T>> result)
+        {
+            if (result.IsSuccess && result.Value.Count != 0)
+                return Ok(result);
+            if (result.IsSuccess && result.Value.Count == 0)
                 return NotFound();
             return BadRequest(result.Error);
         }

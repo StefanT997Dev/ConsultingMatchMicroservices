@@ -12,7 +12,7 @@
 //     {
 //         public class Command : IRequest<Result<MessageDto>>
 //         {
-//             public string ConsultantId { get; set; }
+//             public string MentorId { get; set; }
 //             public Message Message { get; set; }
 //         }
 
@@ -26,12 +26,12 @@
 
 //             public async Task<Result<MessageDto>> Handle(Command request, CancellationToken cancellationToken)
 //             {
-//                 var consultant = await _context.Users.FindAsync(request.ConsultantId);
+//                 var Mentor = await _context.Users.FindAsync(request.MentorId);
 
 //                 var message = new Message{
 //                     Id=request.Message.Id,
 //                     Content=request.Message.Content,
-//                     Consultant=consultant
+//                     Mentor=Mentor
 //                 };
 
 //                 _context.Messages.Add(message);

@@ -10,6 +10,6 @@ namespace Domain
         public int CreditsNeeded { get; set; }
         public string LevelName { get; set; }
         public Category Category { get; set; }
-        public ICollection<AppUserLevel> Consultants { get; set; }
+        public ICollection<AppUserLevel> Mentors { get; set; }
     }
 }

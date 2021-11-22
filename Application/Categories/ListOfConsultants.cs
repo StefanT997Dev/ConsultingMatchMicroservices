@@ -14,7 +14,7 @@ using Persistence;
 
 namespace Application.Categories
 {
-    public class ListOfConsultants
+    public class ListOfMentors
     {
         public class Query : IRequest<Result<ICollection<Profiles.Profile>>>
         {
@@ -34,7 +34,7 @@ namespace Application.Categories
             public async Task<Result<ICollection<Profiles.Profile>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var selectedCategory = _context.Categories
-                    .Include(c => c.Consultants)
+                    .Include(c => c.Mentors)
                     .ThenInclude(ac => ac.AppUser)
                     .FirstOrDefault(c => c.Id == request.Id);
 
@@ -42,15 +42,15 @@ namespace Application.Categories
 
                 var listOfProfiles = new List<Profiles.Profile>();
 
-                foreach (var consultant in selectedCategory.Consultants)
+                foreach (var Mentor in selectedCategory.Mentors)
                 {
-                    var reviews = await _context.Reviews.Where(r => r.Consultant.Id == consultant.AppUserId).ToListAsync();
+                    var reviews = await _context.Reviews.Where(r => r.Mentor.Id == Mentor.AppUserId).ToListAsync();
 
-                    var listOfReviewsDtoForConsultant = new List<ReviewDto>();
+                    var listOfReviewsDtoForMentor = new List<ReviewDto>();
 
                     foreach (var review in reviews)
                     {
-                        listOfReviewsDtoForConsultant.Add(new ReviewDto
+                        listOfReviewsDtoForMentor.Add(new ReviewDto
                         {
                             StarRating = review.StarRating,
                             Comment = review.Comment
@@ -61,13 +61,13 @@ namespace Application.Categories
                     listOfProfiles.Add(
                     new Profiles.Profile
                     {
-                        Id = consultant.AppUserId,
-                        DisplayName = consultant.AppUser.DisplayName,
-                        Image = consultant.AppUser.ProfilePicture,
-                        Bio = consultant.AppUser.Bio,
+                        Id = Mentor.AppUserId,
+                        DisplayName = Mentor.AppUser.DisplayName,
+                        Image = Mentor.AppUser.ProfilePicture,
+                        Bio = Mentor.AppUser.Bio,
                         NumberOfReviews = reviews.Count,
-                        AverageStarReview = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForConsultant).Item2,
-                        Reviews = listOfReviewsDtoForConsultant
+                        AverageStarReview = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForMentor).Item2,
+                        Reviews = listOfReviewsDtoForMentor
                     });
                 }
 

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using Application.Consultants;
+using API.DTOs;
+using Application.Mentors;
 using Application.DTOs;
 using Application.Posts;
 using Domain;
@@ -8,20 +9,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class ConsultantsController : BaseApiController
+    public class MentorsController : BaseApiController
     {
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetConsultants()
+        public async Task<IActionResult> GetMentorsPaginated([FromQuery] FilterDto filter)
         {
-            return HandleResultForLists(await Mediator.Send(new Application.Consultants.List.Query()));
+            return HandlePagedListResult(await Mediator.Send(new PaginatedList.Query 
+            {
+                PageNumber = filter.PageNumber, PageSize = filter.PageSize
+            }));
         }
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetConsultant(string id)
+        public async Task<IActionResult> GetMentor(string id)
         {
-            return HandleResult(await Mediator.Send(new Application.Consultants.Details.Query{Id=id}));
+            return HandleResult(await Mediator.Send(new Application.Mentors.Details.Query{Id=id}));
         }
 
         [AllowAnonymous]
@@ -42,7 +46,7 @@ namespace API.Controllers
         [HttpGet("{id}/posts")]
         public async Task<IActionResult> GetPosts(string id)
         {
-            return HandleResultForLists(await Mediator.Send(new ListForConsultant.Query{Id=id}));
+            return HandleResultForLists(await Mediator.Send(new ListForMentor.Query{Id=id}));
         }
 
         [HttpPost("{id}/posts")]

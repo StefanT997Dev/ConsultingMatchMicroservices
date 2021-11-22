@@ -12,9 +12,9 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Post,Post>();
-            CreateMap<Category,CategoryDto>();
+            CreateMap<Category, DTOs.CategoryDto>();
             CreateMap<Review,ReviewDto>();
-            CreateMap<AppUser,ConsultantSearchDto>();
+            CreateMap<AppUser,MentorsearchDto>();
             CreateMap<AppUserCategory,Profiles.Profile>()
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.AppUser.DisplayName))
                 .ForMember(d => d.Bio, o => o.MapFrom(s => s.AppUser.Bio));
@@ -27,6 +27,10 @@ namespace Application.Core
             CreateMap<AppUserSkill,SkillDto>();
             CreateMap<Skill,CategorySkill>()
                 .ForMember(cs=>cs.SkillId,o =>o.MapFrom(s => s.Id));
+            CreateMap<AppUser, MentorDisplayDto>();
+            CreateMap<AppUserCategory, DTOs.CategoryDto>()
+                .ForMember(cd => cd.Id, o => o.MapFrom(auc => auc.CategoryId))
+                .ForMember(cd => cd.Name, o=> o.MapFrom(auc => auc.Category.Name));
         }
     }
 }

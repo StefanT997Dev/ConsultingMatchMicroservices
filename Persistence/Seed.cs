@@ -39,17 +39,17 @@ namespace Persistence
                 new Category
                 {
                     Name = "Depression Consulting",
-                    NumberOfConsultants = 0
+                    NumberOfMentors = 0
                 },
                 new Category
                 {
                     Name = "UI/UX Consulting",
-                    NumberOfConsultants = 0
+                    NumberOfMentors = 0
                 },
                 new Category
                 {
                     Name = "Business Consulting",
-                    NumberOfConsultants = 0
+                    NumberOfMentors = 0
                 }
             };
 

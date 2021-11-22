@@ -3,7 +3,7 @@ using Domain;
 
 namespace Application.DTOs
 {
-    public class ConsultantDisplayDto
+    public class MentorDisplayDto
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }
@@ -12,7 +12,7 @@ namespace Application.DTOs
         public int NumberOfReviews { get; set; }
         public int TotalStarRating { get; set; }
         public int AverageStarReview { get; set; }
-        public ICollection<string> Categories { get; set; }
+        public ICollection<CategoryDto> Categories { get; set; }
         public ICollection<ReviewDto> Reviews { get; set; }
     }
 }

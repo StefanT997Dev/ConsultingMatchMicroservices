@@ -8,7 +8,7 @@ namespace Application.Categories
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int NumberOfConsultants { get; set; }
-        public ICollection<Profile> Consultants { get; set; }
+        public int NumberOfMentors { get; set; }
+        public ICollection<Profile> Mentors { get; set; }
     }
 }

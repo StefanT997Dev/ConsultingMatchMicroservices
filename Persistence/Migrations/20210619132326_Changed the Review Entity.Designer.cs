@@ -140,7 +140,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfConsultants")
+                    b.Property<int>("NumberOfMentors")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -222,7 +222,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ConsultantId")
+                    b.Property<string>("MentorId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
@@ -230,7 +230,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConsultantId");
+                    b.HasIndex("MentorId");
 
                     b.ToTable("Messages");
                 });
@@ -241,7 +241,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ConsultantId")
+                    b.Property<string>("MentorId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
@@ -261,14 +261,14 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConsultantId");
+                    b.HasIndex("MentorId");
 
                     b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Domain.Review", b =>
                 {
-                    b.Property<string>("ConsultantId")
+                    b.Property<string>("MentorId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClientId")
@@ -280,7 +280,7 @@ namespace Persistence.Migrations
                     b.Property<int>("StarRating")
                         .HasColumnType("int");
 
-                    b.HasKey("ConsultantId", "ClientId");
+                    b.HasKey("MentorId", "ClientId");
 
                     b.HasIndex("ClientId");
 
@@ -456,7 +456,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Category", "Category")
-                        .WithMany("Consultants")
+                        .WithMany("Mentors")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -475,7 +475,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Level", "Level")
-                        .WithMany("Consultants")
+                        .WithMany("Mentors")
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -531,39 +531,39 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Message", b =>
                 {
-                    b.HasOne("Domain.AppUser", "Consultant")
+                    b.HasOne("Domain.AppUser", "Mentor")
                         .WithMany()
-                        .HasForeignKey("ConsultantId");
+                        .HasForeignKey("MentorId");
 
-                    b.Navigation("Consultant");
+                    b.Navigation("Mentor");
                 });
 
             modelBuilder.Entity("Domain.Post", b =>
                 {
-                    b.HasOne("Domain.AppUser", "Consultant")
+                    b.HasOne("Domain.AppUser", "Mentor")
                         .WithMany()
-                        .HasForeignKey("ConsultantId");
+                        .HasForeignKey("MentorId");
 
-                    b.Navigation("Consultant");
+                    b.Navigation("Mentor");
                 });
 
             modelBuilder.Entity("Domain.Review", b =>
                 {
                     b.HasOne("Domain.AppUser", "Client")
-                        .WithMany("ConsultantReviews")
+                        .WithMany("MentorReviews")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Domain.AppUser", "Consultant")
+                    b.HasOne("Domain.AppUser", "Mentor")
                         .WithMany("ClientReviews")
-                        .HasForeignKey("ConsultantId")
+                        .HasForeignKey("MentorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
 
-                    b.Navigation("Consultant");
+                    b.Navigation("Mentor");
                 });
 
             modelBuilder.Entity("Domain.UserFollowing", b =>
@@ -642,7 +642,7 @@ namespace Persistence.Migrations
 
                     b.Navigation("ClientReviews");
 
-                    b.Navigation("ConsultantReviews");
+                    b.Navigation("MentorReviews");
 
                     b.Navigation("Followers");
 
@@ -653,14 +653,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Navigation("Consultants");
+                    b.Navigation("Mentors");
 
                     b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("Domain.Level", b =>
                 {
-                    b.Navigation("Consultants");
+                    b.Navigation("Mentors");
                 });
 
             modelBuilder.Entity("Domain.Post", b =>

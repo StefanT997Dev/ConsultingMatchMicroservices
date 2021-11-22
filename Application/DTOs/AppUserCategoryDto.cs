@@ -4,7 +4,7 @@ namespace Application.DTOs
 {
     public class AppUserCategoryDto
     {
-        public string ConsultantId { get; set; }
+        public string MentorId { get; set; }
         public Guid CategoryId { get; set; }
     }
 }

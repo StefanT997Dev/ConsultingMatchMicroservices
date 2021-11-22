@@ -11,16 +11,16 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Consultants
+namespace Application.Mentors
 {
     public class Search
     {
-        public class Command : IRequest<Result<List<ConsultantSearchDto>>>
+        public class Command : IRequest<Result<List<MentorsearchDto>>>
         {
             public SkillDto Skill { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<List<ConsultantSearchDto>>>
+        public class Handler : IRequestHandler<Command, Result<List<MentorsearchDto>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -30,11 +30,11 @@ namespace Application.Consultants
                 _context = context;
             }
 
-            public async Task<Result<List<ConsultantSearchDto>>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<List<MentorsearchDto>>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var appUserSkills = await _context.AppUserSkills
                     .Where(aus => aus.Skill.Name.StartsWith(request.Skill.Name))
-                    .Include(aus => aus.Consultant)
+                    .Include(aus => aus.Mentor)
                     .Include(aus => aus.Skill)
                     .ToListAsync();
 
@@ -42,28 +42,28 @@ namespace Application.Consultants
 
                 foreach (var appUserSkill in appUserSkills)
                 {
-                    usersWithDesiredSkill.Add(appUserSkill.Consultant);
+                    usersWithDesiredSkill.Add(appUserSkill.Mentor);
                 }
 
-                var listOfConsultantSeacthDtos = new List<ConsultantSearchDto>();
+                var listOfMentorseacthDtos = new List<MentorsearchDto>();
 
                 foreach (var user in usersWithDesiredSkill)
                 {
-                    listOfConsultantSeacthDtos.Add(
-                        new ConsultantSearchDto
+                    listOfMentorseacthDtos.Add(
+                        new MentorsearchDto
                         {
                             DisplayName = user.DisplayName,
                             Skills = GetSkills(user).Result
                         }
                     );
                 }
-                return Result<List<ConsultantSearchDto>>.Success(listOfConsultantSeacthDtos);
+                return Result<List<MentorsearchDto>>.Success(listOfMentorseacthDtos);
             }
 
             private async Task<ICollection<SkillDto>> GetSkills(AppUser user)
             {
                 var appUserSkills = await _context.AppUserSkills
-                    .Where(aus => aus.ConsultantId==user.Id)
+                    .Where(aus => aus.MentorId==user.Id)
                     .Include(aus => aus.Skill)
                     .ToListAsync();
 

@@ -12,7 +12,7 @@ namespace Domain
         public string Picture { get; set; }
         public string Video { get; set; }
         public int NumberOfCredits { get; set; } 
-        public AppUser Consultant { get; set; }
+        public AppUser Mentor { get; set; }
         public ICollection<Comment> Comments { get; set; }=new List<Comment>();
     }
 }

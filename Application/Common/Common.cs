@@ -38,18 +38,18 @@ namespace Application
 
         public async static Task<List<ReviewDto>> GetUserReviews(DataContext _context,IMapper _mapper,string userId)
         {
-            var listOfReviewsDtoForConsultant = new List<ReviewDto>();
+            var listOfReviewsDtoForMentor = new List<ReviewDto>();
 
-            var reviews = await _context.Reviews.Where(r => r.Consultant.Id == userId).ToListAsync();
+            var reviews = await _context.Reviews.Where(r => r.Mentor.Id == userId).ToListAsync();
 
             foreach (var review in reviews)
             {
-                listOfReviewsDtoForConsultant.Add(
+                listOfReviewsDtoForMentor.Add(
                     _mapper.Map<ReviewDto>(review)
                 );
             }
 
-            return listOfReviewsDtoForConsultant;
+            return listOfReviewsDtoForMentor;
         }
 
         public static Tuple<int, int> GetAverageReviewAndTotalStarRating(List<ReviewDto> listOfReviews)

@@ -26,7 +26,7 @@ namespace Application.Categories
             {
                 var appUserCategory = new AppUserCategory
                 {
-                    AppUserId=request.AppUserCategory.ConsultantId,
+                    AppUserId=request.AppUserCategory.MentorId,
                     CategoryId=request.AppUserCategory.CategoryId
                 };
 

@@ -7,20 +7,20 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ConsultantId",
+                name: "MentorId",
                 table: "Reviews",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ConsultantId",
+                name: "IX_Reviews_MentorId",
                 table: "Reviews",
-                column: "ConsultantId");
+                column: "MentorId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Reviews_AspNetUsers_ConsultantId",
+                name: "FK_Reviews_AspNetUsers_MentorId",
                 table: "Reviews",
-                column: "ConsultantId",
+                column: "MentorId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -29,15 +29,15 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Reviews_AspNetUsers_ConsultantId",
+                name: "FK_Reviews_AspNetUsers_MentorId",
                 table: "Reviews");
 
             migrationBuilder.DropIndex(
-                name: "IX_Reviews_ConsultantId",
+                name: "IX_Reviews_MentorId",
                 table: "Reviews");
 
             migrationBuilder.DropColumn(
-                name: "ConsultantId",
+                name: "MentorId",
                 table: "Reviews");
         }
     }

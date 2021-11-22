@@ -1,12 +1,11 @@
 using API.Extensions;
-using API.Middleware;
+using API.Extensions.RepositoryServices;
 using API.SignalR;
-using Application.Categories;
+using Application.Mentors;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace API
 {
-    public class Startup
+	public class Startup
     {
         private readonly IConfiguration _config;
         public Startup(IConfiguration config)
@@ -34,11 +33,13 @@ namespace API
             })
                 .AddFluentValidation(config =>
             {
-                config.RegisterValidatorsFromAssemblyContaining<Create>();
+                config.RegisterValidatorsFromAssemblyContaining<CreateAPost>();
             });
             services.AddApplicationServices(_config);
 
             services.AddIdentityServices(_config);
+
+            services.AddRepositoryServices();
 
             services.AddCors(opt=>
             {

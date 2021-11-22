@@ -6,6 +6,6 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
-        public AppUser Consultant { get; set; }
+        public AppUser Mentor { get; set; }
     }
 }

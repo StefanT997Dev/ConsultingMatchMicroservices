@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210424121456_AddedConsultantIdToReviewDomain")]
-    partial class AddedConsultantIdToReviewDomain
+    [Migration("20210424121456_AddedMentorIdToReviewDomain")]
+    partial class AddedMentorIdToReviewDomain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,7 +140,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfConsultants")
+                    b.Property<int>("NumberOfMentors")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -208,10 +208,10 @@ namespace Persistence.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ConsultantId")
+                    b.Property<Guid>("MentorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ConsultantId1")
+                    b.Property<string>("MentorId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StarRating")
@@ -219,7 +219,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConsultantId1");
+                    b.HasIndex("MentorId1");
 
                     b.ToTable("Reviews");
                 });
@@ -364,7 +364,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Category", "Category")
-                        .WithMany("Consultants")
+                        .WithMany("Mentors")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -383,7 +383,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Level", "Level")
-                        .WithMany("Consultants")
+                        .WithMany("Mentors")
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -404,11 +404,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Review", b =>
                 {
-                    b.HasOne("Domain.AppUser", "Consultant")
+                    b.HasOne("Domain.AppUser", "Mentor")
                         .WithMany()
-                        .HasForeignKey("ConsultantId1");
+                        .HasForeignKey("MentorId1");
 
-                    b.Navigation("Consultant");
+                    b.Navigation("Mentor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -471,12 +471,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Navigation("Consultants");
+                    b.Navigation("Mentors");
                 });
 
             modelBuilder.Entity("Domain.Level", b =>
                 {
-                    b.Navigation("Consultants");
+                    b.Navigation("Mentors");
                 });
 #pragma warning restore 612, 618
         }

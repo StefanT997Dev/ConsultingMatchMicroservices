@@ -1,7 +1,7 @@
 using Domain;
 using FluentValidation;
 
-namespace Application.Consultants
+namespace Application.Mentors.Validation
 {
     public class CreateAPostValidator : AbstractValidator<Post>
     {

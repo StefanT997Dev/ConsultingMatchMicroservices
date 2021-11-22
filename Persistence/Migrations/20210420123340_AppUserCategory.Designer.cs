@@ -125,7 +125,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfConsultants")
+                    b.Property<int>("NumberOfMentors")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -299,7 +299,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Category", "Category")
-                        .WithMany("Consultants")
+                        .WithMany("Mentors")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -367,7 +367,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Navigation("Consultants");
+                    b.Navigation("Mentors");
                 });
 #pragma warning restore 612, 618
         }

@@ -33,15 +33,15 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{id}/consultants")]
-        public async Task<IActionResult> GetConsultantsForCategory(Guid id)
+        [HttpGet("{id}/Mentors")]
+        public async Task<IActionResult> GetMentorsForCategory(Guid id)
         {
-            return HandleResultForCollections(await Mediator.Send(new ListOfConsultants.Query{Id=id}));
+            return HandleResultForCollections(await Mediator.Send(new ListOfMentors.Query{Id=id}));
         }
 
         [AllowAnonymous]
         [HttpPost("choose")]
-        public async Task<IActionResult> PickACategoryForConsultant(AppUserCategoryDto appUserCategory)
+        public async Task<IActionResult> PickACategoryForMentor(AppUserCategoryDto appUserCategory)
         {
             return Ok(await Mediator.Send(new Pick.Command{AppUserCategory=appUserCategory}));
         }

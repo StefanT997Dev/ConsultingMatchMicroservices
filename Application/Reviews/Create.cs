@@ -30,7 +30,7 @@ namespace Application.Reviews
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var consultant = await _context.Users.FindAsync(request.Id);
+                var Mentor = await _context.Users.FindAsync(request.Id);
 
                 var client = await _context.Users.FirstOrDefaultAsync(c => c.UserName == _userAccessor.GetUsername());
 
@@ -38,7 +38,7 @@ namespace Application.Reviews
                 {
                     StarRating = request.Review.StarRating,
                     Comment = request.Review.Comment,
-                    Consultant = consultant,
+                    Mentor = Mentor,
                     Client=client
                 };
 

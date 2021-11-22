@@ -12,7 +12,7 @@ namespace Domain
         public ICollection<AppUserCategory> Categories { get; set; }
         public ICollection<AppUserSkill> Skills { get; set; }
         public ICollection<AppUserLevel> Levels { get; set; }
-        public ICollection<Review> ConsultantReviews { get; set; }
+        public ICollection<Review> MentorReviews { get; set; }
         public ICollection<Review> ClientReviews { get; set; }
         public ICollection<UserFollowing> Followings { get; set; }
         public ICollection<UserFollowing> Followers { get; set; }

@@ -3,24 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class RemovedConsultantId1 : Migration
+    public partial class RemovedMentorId1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Reviews_AspNetUsers_ConsultantId1",
+                name: "FK_Reviews_AspNetUsers_MentorId1",
                 table: "Reviews");
 
             migrationBuilder.DropIndex(
-                name: "IX_Reviews_ConsultantId1",
+                name: "IX_Reviews_MentorId1",
                 table: "Reviews");
 
             migrationBuilder.DropColumn(
-                name: "ConsultantId1",
+                name: "MentorId1",
                 table: "Reviews");
 
             migrationBuilder.AlterColumn<string>(
-                name: "ConsultantId",
+                name: "MentorId",
                 table: "Reviews",
                 type: "nvarchar(450)",
                 nullable: true,
@@ -28,33 +28,33 @@ namespace Persistence.Migrations
                 oldType: "uniqueidentifier");
 
             migrationBuilder.AddColumn<string>(
-                name: "ConsultantId",
+                name: "MentorId",
                 table: "Posts",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ConsultantId",
+                name: "IX_Reviews_MentorId",
                 table: "Reviews",
-                column: "ConsultantId");
+                column: "MentorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_ConsultantId",
+                name: "IX_Posts_MentorId",
                 table: "Posts",
-                column: "ConsultantId");
+                column: "MentorId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_AspNetUsers_ConsultantId",
+                name: "FK_Posts_AspNetUsers_MentorId",
                 table: "Posts",
-                column: "ConsultantId",
+                column: "MentorId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Reviews_AspNetUsers_ConsultantId",
+                name: "FK_Reviews_AspNetUsers_MentorId",
                 table: "Reviews",
-                column: "ConsultantId",
+                column: "MentorId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -63,27 +63,27 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Posts_AspNetUsers_ConsultantId",
+                name: "FK_Posts_AspNetUsers_MentorId",
                 table: "Posts");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Reviews_AspNetUsers_ConsultantId",
+                name: "FK_Reviews_AspNetUsers_MentorId",
                 table: "Reviews");
 
             migrationBuilder.DropIndex(
-                name: "IX_Reviews_ConsultantId",
+                name: "IX_Reviews_MentorId",
                 table: "Reviews");
 
             migrationBuilder.DropIndex(
-                name: "IX_Posts_ConsultantId",
+                name: "IX_Posts_MentorId",
                 table: "Posts");
 
             migrationBuilder.DropColumn(
-                name: "ConsultantId",
+                name: "MentorId",
                 table: "Posts");
 
             migrationBuilder.AlterColumn<Guid>(
-                name: "ConsultantId",
+                name: "MentorId",
                 table: "Reviews",
                 type: "uniqueidentifier",
                 nullable: false,
@@ -93,20 +93,20 @@ namespace Persistence.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "ConsultantId1",
+                name: "MentorId1",
                 table: "Reviews",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ConsultantId1",
+                name: "IX_Reviews_MentorId1",
                 table: "Reviews",
-                column: "ConsultantId1");
+                column: "MentorId1");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Reviews_AspNetUsers_ConsultantId1",
+                name: "FK_Reviews_AspNetUsers_MentorId1",
                 table: "Reviews",
-                column: "ConsultantId1",
+                column: "MentorId1",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);

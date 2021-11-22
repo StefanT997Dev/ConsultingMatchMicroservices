@@ -11,15 +11,15 @@ namespace Persistence.Migrations
                 name: "AppUserSkills",
                 columns: table => new
                 {
-                    ConsultantId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MentorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SkillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppUserSkills", x => new { x.ConsultantId, x.SkillId });
+                    table.PrimaryKey("PK_AppUserSkills", x => new { x.MentorId, x.SkillId });
                     table.ForeignKey(
-                        name: "FK_AppUserSkills_AspNetUsers_ConsultantId",
-                        column: x => x.ConsultantId,
+                        name: "FK_AppUserSkills_AspNetUsers_MentorId",
+                        column: x => x.MentorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);

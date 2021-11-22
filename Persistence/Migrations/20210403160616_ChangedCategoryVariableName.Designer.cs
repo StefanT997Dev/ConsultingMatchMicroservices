@@ -30,7 +30,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfConsultants")
+                    b.Property<int>("NumberOfMentors")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Posts;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -21,6 +22,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Query{Id=id}));
         }
         
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreatePost(Post post)
         {

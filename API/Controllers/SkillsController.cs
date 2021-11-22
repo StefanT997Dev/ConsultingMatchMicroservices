@@ -25,7 +25,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new List.Query{CategoryId=categoryId}));
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Consultant")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles ="Mentor")]
         [HttpPost]
         public async Task<IActionResult> Choose(List<SkillDto> skills)
         {

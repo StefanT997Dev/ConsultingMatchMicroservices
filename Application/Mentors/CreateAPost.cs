@@ -1,12 +1,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.Mentors.Validation;
 using Domain;
 using FluentValidation;
 using MediatR;
 using Persistence;
 
-namespace Application.Consultants
+namespace Application.Mentors
 {
     public class CreateAPost
     {
@@ -34,7 +35,7 @@ namespace Application.Consultants
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var consultant = await _context.Users.FindAsync(request.Id);
+                var Mentor = await _context.Users.FindAsync(request.Id);
 
                 var post = new Post{
                     Id=request.Post.Id,
@@ -42,7 +43,7 @@ namespace Application.Consultants
                     Description=request.Post.Description,
                     Picture=request.Post.Picture,
                     Video=request.Post.Video,
-                    Consultant=consultant
+                    Mentor=Mentor
                 };
 
                 _context.Posts.Add(post);

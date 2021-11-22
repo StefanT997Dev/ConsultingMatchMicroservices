@@ -34,19 +34,19 @@ namespace Persistence
 
             builder.Entity<AppUserCategory>()
                 .HasOne(u => u.Category)
-                .WithMany(c => c.Consultants)
+                .WithMany(c => c.Mentors)
                 .HasForeignKey(ac => ac.CategoryId);
 
-            builder.Entity<AppUserSkill>(x => x.HasKey(aus => new { aus.ConsultantId, aus.SkillId }));
+            builder.Entity<AppUserSkill>(x => x.HasKey(aus => new { aus.MentorId, aus.SkillId }));
 
             builder.Entity<AppUserSkill>()
-                .HasOne(aus => aus.Consultant)
+                .HasOne(aus => aus.Mentor)
                 .WithMany(c => c.Skills)
-                .HasForeignKey(aus => aus.ConsultantId);
+                .HasForeignKey(aus => aus.MentorId);
 
             builder.Entity<AppUserSkill>()
                 .HasOne(aus => aus.Skill)
-                .WithMany(s => s.Consultants)
+                .WithMany(s => s.Mentors)
                 .HasForeignKey(aus => aus.SkillId);
 
             builder.Entity<AppUserLevel>(x=> x.HasKey(al => new{al.AppUserId,al.LevelId}));
@@ -58,7 +58,7 @@ namespace Persistence
 
             builder.Entity<AppUserLevel>()
                 .HasOne(u => u.Level)
-                .WithMany(c => c.Consultants)
+                .WithMany(c => c.Mentors)
                 .HasForeignKey(al => al.LevelId);
 
             builder.Entity<Comment>()
@@ -83,15 +83,15 @@ namespace Persistence
 
             builder.Entity<Review>(b =>
             {
-                b.HasKey(r => new{r.ConsultantId,r.ClientId});
+                b.HasKey(r => new{r.MentorId,r.ClientId});
 
-                b.HasOne(r => r.Consultant)
+                b.HasOne(r => r.Mentor)
                     .WithMany(cl => cl.ClientReviews)
-                    .HasForeignKey(r => r.ConsultantId)
+                    .HasForeignKey(r => r.MentorId)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(r => r.Client)
-                    .WithMany(c => c.ConsultantReviews)
+                    .WithMany(c => c.MentorReviews)
                     .HasForeignKey(r => r.ClientId)
                     .OnDelete(DeleteBehavior.NoAction);
             });

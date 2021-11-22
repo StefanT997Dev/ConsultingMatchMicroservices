@@ -9,13 +9,13 @@ namespace Persistence.Migrations
             migrationBuilder.RenameColumn(
                 name: "NumberOfClients",
                 table: "Categories",
-                newName: "NumberOfConsultants");
+                newName: "NumberOfMentors");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "NumberOfConsultants",
+                name: "NumberOfMentors",
                 table: "Categories",
                 newName: "NumberOfClients");
         }
