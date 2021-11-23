@@ -77,6 +77,11 @@ namespace API
 
             app.UseAuthorization();
 
+            var supportedCultures = new[] { "en", "srb" };
+            var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[1])
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

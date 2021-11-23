@@ -27,6 +27,7 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<IUserAccessor,UserAccessor>();
             services.AddSignalR();
+            services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 
             return services;
         }

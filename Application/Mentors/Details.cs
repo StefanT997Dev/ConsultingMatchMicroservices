@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces.Repositories.Mentors;
 using AutoMapper;
 using MediatR;
 using Persistence;
@@ -17,38 +18,30 @@ namespace Application.Mentors
 
         public class Handler : IRequestHandler<Query, Result<MentorDisplayDto>>
         {
-            private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+			private readonly IMentorsRepository _repository;
+			private readonly IMapper _mapper;
+            public Handler(IMentorsRepository repository, IMapper mapper)
             {
-                _mapper = mapper;
-                _context = context;
+			    _repository = repository;
+				_mapper = mapper;
             }
 
             public async Task<Result<MentorDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.FindAsync(request.Id);
+                var user = await _repository.GetMentorAsync(request.Id);
 
-                var listOfCategoryNames = await Common.GetCategoriesForUser(_context, user);
-
-                var listOfReviewsDtoForMentor = await Common.GetUserReviews(_context, _mapper, user.Id);
-
-                var result = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForMentor);
-
-                var MentorDisplayDto = new MentorDisplayDto
+                if (user == null)
                 {
-                    Id = user.Id,
-                    DisplayName = user.DisplayName,
-                    Image = user.ProfilePicture,
-                    Bio = user.Bio,
-                    NumberOfReviews = listOfReviewsDtoForMentor.Count,
-                    AverageStarReview = result.Item2,
-                    Reviews = listOfReviewsDtoForMentor,
-                    TotalStarRating = result.Item1
-                    // Categories = listOfCategoryNames
-                };
+                    return Result<MentorDisplayDto>.Failure("User doesn't exist");
+                }
 
-                return Result<MentorDisplayDto>.Success(MentorDisplayDto);
+                var result = Common.GetTotalStarRatingAndAverageStarReview(user.Reviews);
+
+                user.TotalStarRating = result.Item1;
+
+                user.AverageStarReview = result.Item2;
+
+                return Result<MentorDisplayDto>.Success(user);
             }
         }
     }

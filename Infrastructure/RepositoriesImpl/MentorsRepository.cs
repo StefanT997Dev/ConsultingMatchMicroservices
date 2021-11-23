@@ -24,6 +24,16 @@ namespace Infrastructure.RepositoriesImpl
 			_mapper = mapper;
 		}
 
+		public async Task<MentorDisplayDto> GetMentorAsync(string id)
+		{
+			return await _context.Users
+				.Include(u => u.Categories)
+				.Include(u => u.ClientReviews)
+				.Where(u => u.Id == id)
+				.ProjectTo<MentorDisplayDto>(_mapper.ConfigurationProvider)
+				.FirstOrDefaultAsync();
+		}
+
 		public async Task<IEnumerable<MentorDisplayDto>> GetMentorsPaginatedAsync(int pageNumber, int pageSize)
 		{
 			return await _context.Users

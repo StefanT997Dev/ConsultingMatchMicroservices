@@ -52,10 +52,11 @@ namespace Application
             return listOfReviewsDtoForMentor;
         }
 
-        public static Tuple<int, int> GetAverageReviewAndTotalStarRating(List<ReviewDto> listOfReviews)
+        public static Tuple<int, int> GetTotalStarRatingAndAverageStarReview(List<ReviewDto> listOfReviews)
             {
                 int totalStarRating = 0;
                 int averageStarRating = 0;
+
                 foreach (var review in listOfReviews)
                 {
                     totalStarRating += review.StarRating;

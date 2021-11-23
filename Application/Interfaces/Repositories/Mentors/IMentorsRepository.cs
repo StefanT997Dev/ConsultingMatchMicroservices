@@ -8,5 +8,6 @@ namespace Application.Interfaces.Repositories.Mentors
 	{
 		Task<IEnumerable<MentorDisplayDto>> GetMentorsPaginatedAsync(int pageNumber, int pageSize);
 		Task<int> GetTotalNumberOfMentors();
+		Task<MentorDisplayDto> GetMentorAsync(string id);
 	}
 }

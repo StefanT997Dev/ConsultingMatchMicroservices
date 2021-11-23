@@ -66,7 +66,7 @@ namespace Application.Categories
                         Image = Mentor.AppUser.ProfilePicture,
                         Bio = Mentor.AppUser.Bio,
                         NumberOfReviews = reviews.Count,
-                        AverageStarReview = Common.GetAverageReviewAndTotalStarRating(listOfReviewsDtoForMentor).Item2,
+                        AverageStarReview = Common.GetTotalStarRatingAndAverageStarReview(listOfReviewsDtoForMentor).Item2,
                         Reviews = listOfReviewsDtoForMentor
                     });
                 }

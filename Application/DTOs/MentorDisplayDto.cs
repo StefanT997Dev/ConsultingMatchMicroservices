@@ -12,7 +12,8 @@ namespace Application.DTOs
         public int NumberOfReviews { get; set; }
         public int TotalStarRating { get; set; }
         public int AverageStarReview { get; set; }
-        public ICollection<CategoryDto> Categories { get; set; }
-        public ICollection<ReviewDto> Reviews { get; set; }
-    }
+        public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
+        public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
+        public List<SkillDto> Skills { get; set; } = new List<SkillDto>();
+	}
 }
