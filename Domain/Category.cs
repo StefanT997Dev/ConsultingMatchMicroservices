@@ -7,7 +7,6 @@ namespace Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int NumberOfMentors { get; set; }
         public ICollection<AppUserCategory> Mentors { get; set; } = new List<AppUserCategory>();
         public ICollection<CategorySkill> Skills { get; set; } = new List<CategorySkill>();
     }

@@ -38,18 +38,23 @@ namespace Persistence
             {
                 new Category
                 {
-                    Name = "Depression Consulting",
-                    NumberOfMentors = 0
+                    Name = "Web Development"
                 },
                 new Category
                 {
-                    Name = "UI/UX Consulting",
-                    NumberOfMentors = 0
+                    Name = "Mobile Development"
                 },
                 new Category
                 {
-                    Name = "Business Consulting",
-                    NumberOfMentors = 0
+                    Name = "Game Development"
+                },
+                new Category
+                {
+                    Name = "Blockchain Development"
+                },
+                new Category
+                { 
+                    Name = "Data Science/Machine Learning"
                 }
             };
 

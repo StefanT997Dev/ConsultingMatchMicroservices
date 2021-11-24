@@ -1,5 +1,3 @@
-using System.Linq;
-using Application.Categories;
 using Application.Comments;
 using Application.DTOs;
 using AutoMapper;
@@ -15,7 +13,7 @@ namespace Application.Core
             CreateMap<Category, DTOs.CategoryDto>();
             CreateMap<Review,ReviewDto>();
             CreateMap<AppUser,MentorsearchDto>();
-            CreateMap<AppUserCategory,Profiles.Profile>()
+            CreateMap<AppUserCategory,MentorDisplayDto>()
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.AppUser.DisplayName))
                 .ForMember(d => d.Bio, o => o.MapFrom(s => s.AppUser.Bio));
             CreateMap<Comment,CommentDto>()

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using Application.DTOs;
 using MediatR;
 using Application.Interfaces.Repositories.Mentors;
 using Application.Core.Wrappers;
-using Microsoft.Extensions.Localization;
+using System;
 
 namespace Application.Mentors
 {
@@ -14,9 +14,8 @@ namespace Application.Mentors
     {
         public class Query : IRequest<PagedResult<List<MentorDisplayDto>>> 
         {
-            public int PageNumber { get; set; }
-            public int PageSize { get; set; }
-        }
+			public FilterDto Filter { get; set; }
+		}
 
 		public class Handler : IRequestHandler<Query, PagedResult<List<MentorDisplayDto>>>
         {
@@ -29,14 +28,25 @@ namespace Application.Mentors
 
             public async Task<PagedResult<List<MentorDisplayDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var mentors = await _mentorsRepository.GetMentorsPaginatedAsync(request.PageNumber, request.PageSize);
+                var mentors = await _mentorsRepository.GetMentorsPaginatedAsync(request.Filter.PageNumber, request.Filter.PageSize);
 
                 var mentorsList = mentors.ToList();
 
                 if (mentorsList.Count == 0)
                 {
                     return PagedResult<List<MentorDisplayDto>>
-                        .Failure("Based on the page number and page size we couldn't find any mentors");
+                        .Failure("Nismo uspeli da pronađemo mentore na osnovu prosleđenih vrednosti za broj stranice i veličinu stranice");
+                }
+
+                if (request.Filter.Category != null)
+                {
+                    mentorsList = mentors.Where(m => Convert.ToBoolean(m.Categories.Find(c => c.Name == request.Filter.Category))).ToList();
+
+                    if (mentorsList.Count == 0)
+                    {
+                        return PagedResult<List<MentorDisplayDto>>
+                        .Failure("Nismo uspeli da pronađemo mentore na osnovu tražene kategorije");
+                    }
                 }
 
                 int totalRecords = await _mentorsRepository.GetTotalNumberOfMentors();
@@ -48,7 +58,7 @@ namespace Application.Mentors
 
 			private static int CalculateNumberOfPages(Query request, int totalRecords)
 			{
-                return ((totalRecords - 1) / request.PageSize) + 1;
+                return ((totalRecords - 1) / request.Filter.PageSize) + 1;
             }
 		}
     }

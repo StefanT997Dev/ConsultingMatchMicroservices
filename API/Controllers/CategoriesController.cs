@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{id}/Mentors")]
+        [HttpGet("{id}/mentors")]
         public async Task<IActionResult> GetMentorsForCategory(Guid id)
         {
             return HandleResultForCollections(await Mediator.Send(new ListOfMentors.Query{Id=id}));

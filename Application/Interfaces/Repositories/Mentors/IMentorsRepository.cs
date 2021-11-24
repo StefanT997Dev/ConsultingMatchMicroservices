@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.DTOs;
 
@@ -9,5 +10,6 @@ namespace Application.Interfaces.Repositories.Mentors
 		Task<IEnumerable<MentorDisplayDto>> GetMentorsPaginatedAsync(int pageNumber, int pageSize);
 		Task<int> GetTotalNumberOfMentors();
 		Task<MentorDisplayDto> GetMentorAsync(string id);
+		Task<IEnumerable<MentorDisplayDto>> GetMentorsForCategoryAsync();
 	}
 }

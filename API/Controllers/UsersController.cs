@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using API.DTOs;
+using Application.DTOs;
 using Application.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class UsersController:BaseApiController
+	public class UsersController:BaseApiController
     {
         [HttpGet]
         [AllowAnonymous]

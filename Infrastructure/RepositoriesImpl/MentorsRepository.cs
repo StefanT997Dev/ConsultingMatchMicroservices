@@ -34,6 +34,11 @@ namespace Infrastructure.RepositoriesImpl
 				.FirstOrDefaultAsync();
 		}
 
+		public Task<IEnumerable<MentorDisplayDto>> GetMentorsForCategoryAsync()
+		{
+			throw new NotImplementedException();
+		}
+
 		public async Task<IEnumerable<MentorDisplayDto>> GetMentorsPaginatedAsync(int pageNumber, int pageSize)
 		{
 			return await _context.Users

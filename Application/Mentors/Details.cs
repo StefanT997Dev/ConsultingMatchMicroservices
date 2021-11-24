@@ -1,15 +1,15 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using Application.Interfaces.Repositories.Mentors;
 using AutoMapper;
 using MediatR;
-using Persistence;
+using Microsoft.Extensions.Localization;
 
 namespace Application.Mentors
 {
-    public class Details
+	public class Details
     {
         public class Query : IRequest<Result<MentorDisplayDto>>
         {
@@ -19,12 +19,11 @@ namespace Application.Mentors
         public class Handler : IRequestHandler<Query, Result<MentorDisplayDto>>
         {
 			private readonly IMentorsRepository _repository;
-			private readonly IMapper _mapper;
-            public Handler(IMentorsRepository repository, IMapper mapper)
+		
+            public Handler(IMentorsRepository repository)
             {
-			    _repository = repository;
-				_mapper = mapper;
-            }
+                _repository = repository;
+			}
 
             public async Task<Result<MentorDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
             {
@@ -32,7 +31,7 @@ namespace Application.Mentors
 
                 if (user == null)
                 {
-                    return Result<MentorDisplayDto>.Failure("User doesn't exist");
+                    return Result<MentorDisplayDto>.Failure("Nismo uspeli da pronađemo željenog korisnika");
                 }
 
                 var result = Common.GetTotalStarRatingAndAverageStarReview(user.Reviews);

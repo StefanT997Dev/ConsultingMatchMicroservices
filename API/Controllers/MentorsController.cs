@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using API.DTOs;
 using Application.Mentors;
 using Application.DTOs;
 using Application.Posts;
@@ -17,7 +16,7 @@ namespace API.Controllers
         {
             return HandlePagedListResult(await Mediator.Send(new PaginatedList.Query 
             {
-                PageNumber = filter.PageNumber, PageSize = filter.PageSize
+                Filter = filter, 
             }));
         }
 

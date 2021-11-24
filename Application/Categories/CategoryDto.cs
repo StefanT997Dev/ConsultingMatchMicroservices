@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Application.Profiles;
+using Application.DTOs;
 
 namespace Application.Categories
 {
@@ -9,6 +9,6 @@ namespace Application.Categories
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int NumberOfMentors { get; set; }
-        public ICollection<Profile> Mentors { get; set; }
+        public ICollection<MentorDisplayDto> Mentors { get; set; }
     }
 }
