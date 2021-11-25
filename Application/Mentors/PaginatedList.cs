@@ -32,6 +32,8 @@ namespace Application.Mentors
 
                 var mentorsList = mentors.ToList();
 
+                int totalRecords = 0;
+
                 if (mentorsList.Count == 0)
                 {
                     return PagedResult<List<MentorDisplayDto>>
@@ -40,16 +42,20 @@ namespace Application.Mentors
 
                 if (request.Filter.Category != null)
                 {
-                    mentorsList = mentors.Where(m => Convert.ToBoolean(m.Categories.Find(c => c.Name == request.Filter.Category))).ToList();
+                    mentorsList = mentors.Where(m => (m.Categories.Any(c => c.Name == request.Filter.Category))).ToList();
 
                     if (mentorsList.Count == 0)
                     {
                         return PagedResult<List<MentorDisplayDto>>
                         .Failure("Nismo uspeli da pronađemo mentore na osnovu tražene kategorije");
                     }
-                }
 
-                int totalRecords = await _mentorsRepository.GetTotalNumberOfMentors();
+                    totalRecords = mentorsList.Count;
+                }
+                else
+                { 
+                    totalRecords = await _mentorsRepository.GetTotalNumberOfMentors();
+                }
 
                 int numberOfPages = CalculateNumberOfPages(request, totalRecords);
 

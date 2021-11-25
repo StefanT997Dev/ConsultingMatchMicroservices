@@ -1,7 +1,7 @@
 using API.Extensions;
 using API.Extensions.RepositoryServices;
 using API.SignalR;
-using Application.Mentors;
+using Application.Categories.Validation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +33,7 @@ namespace API
             })
                 .AddFluentValidation(config =>
             {
-                config.RegisterValidatorsFromAssemblyContaining<CreateAPost>();
+                config.RegisterValidatorsFromAssemblyContaining<CategoriesValidator>();
             });
             services.AddApplicationServices(_config);
 
