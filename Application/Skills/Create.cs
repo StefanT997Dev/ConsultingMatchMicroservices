@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -17,19 +18,33 @@ namespace Application.Skills
             public Guid CategoryId { get; set; }
             public SkillDto Skill { get; set; }
         }
-        public class Hadler : IRequestHandler<Command, Result<Unit>>
+
+		public class CommandValidator : AbstractValidator<Command>
+		{
+			public CommandValidator()
+			{
+                RuleFor(x => x.CategoryId).NotEmpty();
+                RuleFor(x => x.Skill.Id).NotEmpty();
+                RuleFor(x => x.Skill.Name).NotEmpty();
+            }
+		}
+		public class Hadler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Hadler(DataContext context, IMapper mapper)
+           
+            public Hadler(DataContext context)
             {
-                _mapper = mapper;
                 _context = context;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var category = await _context.Categories.FindAsync(request.CategoryId);
+
+                if (category == null)
+                {
+                    return Result<Unit>.Failure("Prosleđeni id za kategoriju ne postoji u našem sistemu");
+                }
 
                 var skill = new Skill
                 {

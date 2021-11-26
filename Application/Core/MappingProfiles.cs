@@ -29,6 +29,10 @@ namespace Application.Core
             CreateMap<AppUserCategory, DTOs.CategoryDto>()
                 .ForMember(cd => cd.Id, o => o.MapFrom(auc => auc.CategoryId))
                 .ForMember(cd => cd.Name, o=> o.MapFrom(auc => auc.Category.Name));
+            CreateMap<Category, CategoryWithSkillsDto>();
+            CreateMap<CategorySkill, SkillDto>()
+                .ForMember(s => s.Id, o => o.MapFrom(cs => cs.SkillId))
+                .ForMember(s => s.Name, o => o.MapFrom(cs => cs.Skill.Name));
         }
     }
 }
