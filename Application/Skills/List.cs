@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -41,7 +41,19 @@ namespace Application.Skills
                     .ProjectTo<CategoryWithSkillsDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
 
-                return Result<List<SkillDto>>.Success(category.Skills.ToList());
+                if (category == null)
+                {
+                    return Result<List<SkillDto>>.Failure("Nismo uspeli da pronađemo kategoriju");
+                }
+
+                var listOfSKills = category.Skills.ToList();
+
+                if (listOfSKills.Count == 0)
+                {
+                    return Result<List<SkillDto>>.Failure("Nismo uspeli da pronađemo veštine za prosleđenu kategoriju");
+                }
+
+                return Result<List<SkillDto>>.Success(listOfSKills);
             }
         }
     }

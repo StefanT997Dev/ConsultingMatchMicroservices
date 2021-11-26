@@ -10,7 +10,8 @@ namespace API.Controllers
     public class AdminController:BaseApiController
     {
         [HttpPost]
-        [Authorize(Roles="Admin")]
+        //[Authorize(Roles="Admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> Add(RoleDto role)
         {
             return Ok(await Mediator.Send(new Create.Command{RoleName=role.Name}));

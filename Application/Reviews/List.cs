@@ -36,7 +36,7 @@ namespace Application.Reviews
 
                 if(reviews.Count==0)
                 {
-                    return Result<List<ReviewDto>>.Failure("No reviews yet");
+                    return Result<List<ReviewDto>>.Failure("Ovaj mentor još nema nijednu recenziju");
                 }
 
                 return Result<List<ReviewDto>>.Success(reviews);

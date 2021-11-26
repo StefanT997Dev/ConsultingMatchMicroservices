@@ -14,10 +14,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMentorsPaginated([FromQuery] FilterDto filter)
         {
-            return HandlePagedListResult(await Mediator.Send(new PaginatedList.Query 
-            {
-                Filter = filter, 
-            }));
+            return HandlePagedListResult(await Mediator.Send(new PaginatedList.Query{ Filter = filter }));
         }
 
         [AllowAnonymous]

@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Services;
@@ -55,12 +55,12 @@ namespace API.Controllers
         {
             if(await _userManager.Users.AnyAsync(x=> x.Email==registerDto.Email))
             {
-                return BadRequest("Email taken");
+                return BadRequest("Email je zauzet");
             }
 
             if(await _userManager.Users.AnyAsync(x=> x.UserName==registerDto.Username))
             {
-                return BadRequest("Username taken");
+                return BadRequest("Korisničko ime je zauzetos");
             }
 
             var user=new AppUser
@@ -78,7 +78,7 @@ namespace API.Controllers
 
                 if(!addRoleResult.Succeeded)
                 {
-                    return BadRequest("Role does not exist or user hasn't selected the role");
+                    return BadRequest("Niste izabrali ulogu");
                 }
 
                 return new UserDto
@@ -92,7 +92,7 @@ namespace API.Controllers
                 };
             }
 
-            return BadRequest("Problem registering user");
+            return BadRequest("Problem pri registraciji korisnika");
         }
 
         [Authorize]
