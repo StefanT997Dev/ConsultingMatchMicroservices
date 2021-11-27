@@ -29,7 +29,9 @@ namespace Application.Skills
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var Mentor = await _context.Users.FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUsername());
+                var mentor = await _context.Users
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUsername());
 
                 var appUserSkillsList = new List<AppUserSkill>();
 
@@ -37,7 +39,7 @@ namespace Application.Skills
                 {
                     var appUserSkill = new AppUserSkill
                     {
-                        MentorId = Mentor.Id,
+                        MentorId = mentor.Id,
                         SkillId = skill.Id
                     };
 

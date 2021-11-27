@@ -52,7 +52,10 @@ namespace Application.Skills
                     Name=request.Skill.Name
                 };
 
-                _context.Skills.Add(skill);
+                if (!Convert.ToBoolean(await _context.Skills.FindAsync(skill.Id)))
+                {
+                    _context.Skills.Add(skill);
+                }
 
                 _context.CategorySkills.Add(new CategorySkill{CategoryId=category.Id,SkillId=skill.Id});
 

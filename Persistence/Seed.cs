@@ -32,9 +32,9 @@ namespace Persistence
                 }
             }
 
-            if (context.Categories.Any()) return;
-            
-            var categories = new List<Category>
+            if (!context.Categories.Any())
+            {
+                var categories = new List<Category>
             {
                 new Category
                 {
@@ -53,13 +53,86 @@ namespace Persistence
                     Name = "Blockchain Development"
                 },
                 new Category
-                { 
+                {
                     Name = "Data Science/Machine Learning"
                 }
             };
+                await context.Categories.AddRangeAsync(categories);
+                await context.SaveChangesAsync();
+            }
 
-            await context.Categories.AddRangeAsync(categories);
-            await context.SaveChangesAsync();
+            if (!context.Skills.Any())
+            {
+                var skills = new List<Skill>
+            {
+                new Skill
+                {
+                    Name = "Backend"
+                },
+                new Skill
+                {
+                    Name = ".NET Core"
+                },
+                new Skill
+                {
+                    Name = "Vue"
+                },
+                new Skill
+                {
+                    Name = "Java"
+                },
+                new Skill
+                {
+                    Name = "C#"
+                },
+                new Skill
+                {
+                    Name = "Laravel"
+                },
+                new Skill
+                {
+                    Name = "Axios"
+                },
+                new Skill
+                {
+                    Name = "Redux"
+                },
+                new Skill
+                {
+                    Name = "React"
+                },
+                new Skill
+                {
+                    Name = "Spring"
+                },
+                new Skill
+                {
+                    Name = "PHP"
+                },
+                new Skill
+                {
+                    Name = "CSS"
+                },
+                new Skill
+                {
+                    Name = "HTML"
+                },
+                new Skill
+                {
+                    Name = "WEB Api"
+                },
+                new Skill
+                {
+                    Name = "Angular"
+                },
+                new Skill
+                {
+                    Name = "Javascript"
+                }
+            };
+                await context.Skills.AddRangeAsync(skills);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

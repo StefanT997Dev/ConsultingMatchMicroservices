@@ -27,9 +27,9 @@ namespace Infrastructure.RepositoriesImpl
 		public async Task<MentorDisplayDto> GetMentorAsync(string id)
 		{
 			return await _context.Users
-				.Include(u => u.Categories)
-				.Include(u => u.ClientReviews)
 				.Where(u => u.Id == id)
+				.Include(u => u.Skills)
+				.ThenInclude(s => s.Skill)
 				.ProjectTo<MentorDisplayDto>(_mapper.ConfigurationProvider)
 				.FirstOrDefaultAsync();
 		}
