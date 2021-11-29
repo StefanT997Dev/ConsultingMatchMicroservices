@@ -60,7 +60,7 @@ namespace API.Controllers
 
             if(await _userManager.Users.AnyAsync(x=> x.UserName==registerDto.Username))
             {
-                return BadRequest("Korisničko ime je zauzetos");
+                return BadRequest("Korisničko ime je zauzeto");
             }
 
             var user=new AppUser
