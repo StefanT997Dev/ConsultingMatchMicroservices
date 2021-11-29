@@ -22,11 +22,13 @@ namespace Application.Core
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.ProfilePicture));
             CreateMap<AppUser,UserDto>();
             CreateMap<Skill,SkillDto>();
-            CreateMap<AppUserSkill,SkillDto>();
+            CreateMap<AppUserSkill,SkillDto>()
+                .ForMember(s => s.Id, o => o.MapFrom(aus => aus.SkillId))
+                .ForMember(s => s.Name, o => o.MapFrom(aus => aus.Skill.Name));
             CreateMap<Skill,CategorySkill>()
                 .ForMember(cs=>cs.SkillId,o =>o.MapFrom(s => s.Id));
             CreateMap<AppUser, MentorDisplayDto>();
-            CreateMap<AppUserCategory, DTOs.CategoryDto>()
+            CreateMap<AppUserCategory, CategoryDto>()
                 .ForMember(cd => cd.Id, o => o.MapFrom(auc => auc.CategoryId))
                 .ForMember(cd => cd.Name, o=> o.MapFrom(auc => auc.Category.Name));
             CreateMap<Category, CategoryWithSkillsDto>();

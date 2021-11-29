@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Categories.Validation;
 using Application.Core;
 using Application.DTOs;
 using Domain;
@@ -11,7 +10,7 @@ using Persistence;
 
 namespace Application.Categories
 {
-    public class Pick
+	public class Pick
     {
         public class Command : IRequest<Result<Unit>>
         {
