@@ -30,6 +30,9 @@ namespace Application.Reviews
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                // Ako vec postoji review ne moze ponovo da ga kreira
+                // Return Result umesto samo task i success i failure
+
                 var Mentor = await _context.Users.FindAsync(request.Id);
 
                 var client = await _context.Users.FirstOrDefaultAsync(c => c.UserName == _userAccessor.GetUsername());

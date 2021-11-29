@@ -28,8 +28,6 @@ namespace Infrastructure.RepositoriesImpl
 		{
 			return await _context.Users
 				.Where(u => u.Id == id)
-				.Include(u => u.Skills)
-				.ThenInclude(s => s.Skill)
 				.ProjectTo<MentorDisplayDto>(_mapper.ConfigurationProvider)
 				.FirstOrDefaultAsync();
 		}
