@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Application.DTOs;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
@@ -30,6 +31,11 @@ namespace Application.Categories
                 var categories = await _context.Categories
                     .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
+
+                if (categories.Count == 0)
+                {
+                    return Result<List<CategoryDto>>.Failure("Kategorije ne postoje u bazi podataka");
+                }
 
                 return Result<List<CategoryDto>>.Success(categories);
             }

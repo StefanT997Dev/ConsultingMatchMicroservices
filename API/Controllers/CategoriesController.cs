@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Categories;
 using Application.DTOs;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class CategoriesController : BaseApiController
+	public class CategoriesController : BaseApiController
     {
         [AllowAnonymous]
         [HttpGet]
