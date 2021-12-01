@@ -28,33 +28,16 @@ namespace Application.Mentors
 
             public async Task<PagedResult<List<MentorDisplayDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var mentors = await _mentorsRepository.GetMentorsPaginatedAsync(request.Filter.PageNumber, request.Filter.PageSize);
+                var mentorTuple = await _mentorsRepository.GetMentorsPaginatedAsync(request.Filter.PageNumber, request.Filter.PageSize, request.Filter.Category);
 
-                var mentorsList = mentors.ToList();
+                var mentorsList = mentorTuple.Item1.ToList();
 
-                int totalRecords = 0;
+                int totalRecords = mentorTuple.Item2;
 
                 if (mentorsList.Count == 0)
                 {
                     return PagedResult<List<MentorDisplayDto>>
-                        .Failure("Nismo uspeli da pronađemo mentore na osnovu prosleđenih vrednosti za broj stranice i veličinu stranice");
-                }
-
-                if (request.Filter.Category != null)
-                {
-                    mentorsList = mentors.Where(m => (m.Categories.Any(c => c.Name == request.Filter.Category))).ToList();
-
-                    if (mentorsList.Count == 0)
-                    {
-                        return PagedResult<List<MentorDisplayDto>>
-                        .Failure("Nismo uspeli da pronađemo mentore na osnovu tražene kategorije");
-                    }
-
-                    totalRecords = mentorsList.Count;
-                }
-                else
-                { 
-                    totalRecords = await _mentorsRepository.GetTotalNumberOfMentors();
+                        .Failure("Nismo uspeli da pronađemo mentore na osnovu prosleđenih kriterijuma");
                 }
 
                 int numberOfPages = CalculateNumberOfPages(request, totalRecords);

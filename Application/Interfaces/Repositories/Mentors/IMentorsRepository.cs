@@ -7,9 +7,8 @@ namespace Application.Interfaces.Repositories.Mentors
 {
 	public interface IMentorsRepository
 	{
-		Task<IEnumerable<MentorDisplayDto>> GetMentorsPaginatedAsync(int pageNumber, int pageSize);
+		Task<Tuple<IEnumerable<MentorDisplayDto>, int>> GetMentorsPaginatedAsync(int pageNumber, int pageSize, string category);
 		Task<int> GetTotalNumberOfMentors();
 		Task<MentorDisplayDto> GetMentorAsync(string id);
-		Task<IEnumerable<MentorDisplayDto>> GetMentorsForCategoryAsync();
 	}
 }

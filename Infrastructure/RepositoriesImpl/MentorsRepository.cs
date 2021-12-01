@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Application.Core.Wrappers;
 using Application.DTOs;
 using Application.Interfaces.Repositories.Mentors;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -17,11 +17,13 @@ namespace Infrastructure.RepositoriesImpl
 	{
 		private readonly DataContext _context;
 		private readonly IMapper _mapper;
+		private readonly UserManager<AppUser> _userManager;
 
-		public MentorsRepository(DataContext context, IMapper mapper)
+		public MentorsRepository(DataContext context, IMapper mapper, UserManager<AppUser> userManager)
 		{
 			_context = context;
 			_mapper = mapper;
+			_userManager = userManager;
 		}
 
 		public async Task<MentorDisplayDto> GetMentorAsync(string id)
@@ -32,18 +34,19 @@ namespace Infrastructure.RepositoriesImpl
 				.FirstOrDefaultAsync();
 		}
 
-		public Task<IEnumerable<MentorDisplayDto>> GetMentorsForCategoryAsync()
+		public async Task<Tuple<IEnumerable<MentorDisplayDto>,int>> GetMentorsPaginatedAsync(int pageNumber, int pageSize, string category)
 		{
-			throw new NotImplementedException();
-		}
+			var usersInRole = await _userManager.GetUsersInRoleAsync("Mentor");
 
-		public async Task<IEnumerable<MentorDisplayDto>> GetMentorsPaginatedAsync(int pageNumber, int pageSize)
-		{
-			return await _context.Users
-					.Skip((pageNumber - 1) * pageSize)
-					.Take(pageSize)
-					.ProjectTo<MentorDisplayDto>(_mapper.ConfigurationProvider)
-					.ToListAsync();
+			var usersInCategory = usersInRole
+				.Where(u => category != null ? u.Categories
+				.Any(c => c.Category.Name == category) : true);
+
+			int totalRecords = usersInCategory.Count();
+
+			return new Tuple<IEnumerable<MentorDisplayDto>, int>(_mapper.Map<IEnumerable<MentorDisplayDto>>(usersInCategory
+				.Skip((pageNumber - 1) * pageSize)
+				.Take(pageSize)),totalRecords);
 		}
 
 		public async Task<int> GetTotalNumberOfMentors()
