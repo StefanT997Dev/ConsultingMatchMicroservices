@@ -40,27 +40,28 @@ namespace Infrastructure.RepositoriesImpl
 
 			// GetUsersInRoleAsync doesn't return joined tables like Categories for example
 			// so we have to query the database again to get the categories additionally
-			var usersWithCategory = new List<AppUser>();
+			var mentors = new List<MentorDisplayDto>();
 
 			foreach (var user in usersInRole)
 			{ 
-				var user1 = _userManager.Users
-					.Include(u => u.Categories)
-					.ThenInclude(c => c.Category)
-					.FirstOrDefault(u => u.Id == user.Id);
+				var user1 = await _context.Users
+					.Where(u => u.Id == user.Id)
+					.ProjectTo<MentorDisplayDto>(_mapper.ConfigurationProvider)
+					.FirstOrDefaultAsync();
 
-				usersWithCategory.Add(user1);
+				mentors.Add(user1);
 			}
 
-			var usersInCategory = usersWithCategory
+			var mentorsInCategory = mentors
 				.Where(u => category != null ? u.Categories
-				.Any(c => c.Category.Name == category) : true);
+				.Any(c => c.Name == category) : true)
+				.ToList();
 
-			int totalRecords = usersInCategory.Any()?usersInCategory.Count():0;
+			int totalRecords = mentorsInCategory.Any()?mentorsInCategory.Count():0;
 
-			return new Tuple<IEnumerable<MentorDisplayDto>, int>(_mapper.Map<IEnumerable<MentorDisplayDto>>(usersInCategory
+			return new Tuple<IEnumerable<MentorDisplayDto>, int>(mentorsInCategory
 				.Skip((pageNumber - 1) * pageSize)
-				.Take(pageSize)),totalRecords);
+				.Take(pageSize),totalRecords);
 		}
 
 		public async Task<int> GetTotalNumberOfMentors()

@@ -40,6 +40,17 @@ namespace Application.Mentors
                         .Failure("Nismo uspeli da pronađemo mentore na osnovu prosleđenih kriterijuma");
                 }
 
+                foreach (var mentor in mentorsList)
+                {
+                    mentor.NumberOfReviews = mentor.Reviews.Count;
+
+                    var result = Common.GetTotalStarRatingAndAverageStarReview(mentor.Reviews);
+
+                    mentor.TotalStarRating = result.Item1;
+
+                    mentor.AverageStarReview = result.Item2;
+                }
+
                 int numberOfPages = CalculateNumberOfPages(request, totalRecords);
 
                 return PagedResult<List<MentorDisplayDto>>.Success(mentorsList, numberOfPages, totalRecords);
