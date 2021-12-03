@@ -34,6 +34,8 @@ namespace Application.Mentors
                     return Result<MentorDisplayDto>.Failure("Nismo uspeli da pronađemo željenog korisnika");
                 }
 
+                user.NumberOfReviews = user.Reviews.Count;
+
                 var result = Common.GetTotalStarRatingAndAverageStarReview(user.Reviews);
 
                 user.TotalStarRating = result.Item1;

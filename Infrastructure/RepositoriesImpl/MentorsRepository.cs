@@ -38,11 +38,25 @@ namespace Infrastructure.RepositoriesImpl
 		{
 			var usersInRole = await _userManager.GetUsersInRoleAsync("Mentor");
 
-			var usersInCategory = usersInRole
+			// GetUsersInRoleAsync doesn't return joined tables like Categories for example
+			// so we have to query the database again to get the categories additionally
+			var usersWithCategory = new List<AppUser>();
+
+			foreach (var user in usersInRole)
+			{ 
+				var user1 = _userManager.Users
+					.Include(u => u.Categories)
+					.ThenInclude(c => c.Category)
+					.FirstOrDefault(u => u.Id == user.Id);
+
+				usersWithCategory.Add(user1);
+			}
+
+			var usersInCategory = usersWithCategory
 				.Where(u => category != null ? u.Categories
 				.Any(c => c.Category.Name == category) : true);
 
-			int totalRecords = usersInCategory.Count();
+			int totalRecords = usersInCategory.Any()?usersInCategory.Count():0;
 
 			return new Tuple<IEnumerable<MentorDisplayDto>, int>(_mapper.Map<IEnumerable<MentorDisplayDto>>(usersInCategory
 				.Skip((pageNumber - 1) * pageSize)
