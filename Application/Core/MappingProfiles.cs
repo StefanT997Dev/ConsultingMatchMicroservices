@@ -37,6 +37,7 @@ namespace Application.Core
                 .ForMember(s => s.Id, o => o.MapFrom(cs => cs.SkillId))
                 .ForMember(s => s.Name, o => o.MapFrom(cs => cs.Skill.Name));
             CreateMap<Review, ReviewDto>();
+            CreateMap<AppUser, ClientDto>();
         }
     }
 }

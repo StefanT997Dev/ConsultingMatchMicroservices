@@ -1,6 +1,5 @@
 using API.Extensions;
 using API.Extensions.RepositoryServices;
-using API.Middleware;
 using API.SignalR;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +9,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using static Application.Skills.Create;
+using static Application.Categories.Create;
+using static Application.Reviews.Exists;
 
 namespace API
 {
@@ -36,6 +36,7 @@ namespace API
             {
                 config.RegisterValidatorsFromAssemblyContaining<CommandValidator>();
             });
+
             services.AddApplicationServices(_config);
 
             services.AddIdentityServices(_config);
