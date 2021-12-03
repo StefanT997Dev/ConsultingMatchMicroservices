@@ -21,14 +21,8 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Details.Query{Id=id}));
         }
-        
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> CreatePost(Post post)
-        {
-            return HandleResult(await Mediator.Send(new Create.Command{Post=post}));
-        }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Mentor")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditPost(Guid id,Post post)
         {
@@ -36,6 +30,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command{Post=post}));
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Mentor")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(Guid id)
         {

@@ -22,6 +22,7 @@ namespace Application.Core
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.ProfilePicture));
             CreateMap<AppUser,UserDto>();
             CreateMap<Skill,SkillDto>();
+            CreateMap<SkillDto, Skill>();
             CreateMap<AppUserSkill,SkillDto>()
                 .ForMember(s => s.Id, o => o.MapFrom(aus => aus.SkillId))
                 .ForMember(s => s.Name, o => o.MapFrom(aus => aus.Skill.Name));
@@ -38,6 +39,9 @@ namespace Application.Core
                 .ForMember(s => s.Name, o => o.MapFrom(cs => cs.Skill.Name));
             CreateMap<Review, ReviewDto>();
             CreateMap<AppUser, ClientDto>();
+            CreateMap<UpdateMentorDto, AppUser>();
+            CreateMap<SkillDto, AppUserSkill>()
+                .ForMember(aus => aus.SkillId, o => o.MapFrom(sd => sd.Id));
         }
     }
 }

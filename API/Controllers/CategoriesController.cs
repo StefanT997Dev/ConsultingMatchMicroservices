@@ -16,19 +16,19 @@ namespace API.Controllers
             return HandleResultForLists(await Mediator.Send(new List.Query()));
         }
 
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(Guid id)
         {
             return HandleResult(await Mediator.Send(new Details.Query{Id=id}));
-        }
+        }*/
         
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto category)
         {
             return Ok(await Mediator.Send(new Create.Command{Category=category}));
-        }
+        }*/
 
         [AllowAnonymous]
         [HttpGet("{id}/mentors")]

@@ -45,6 +45,7 @@ namespace API.Controllers
             return HandleResultForLists(await Mediator.Send(new ListForMentor.Query{Id=id}));
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Mentor")]
         [HttpPost("{id}/posts")]
         public async Task<IActionResult> PostAPost(string id,Post post)
         {
@@ -56,6 +57,13 @@ namespace API.Controllers
         public async Task<IActionResult> Search(SkillDto skill)
         {
             return Ok(await Mediator.Send(new Search.Command{Skill=skill}));
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Mentor")]
+        [HttpPatch]
+        public async Task<IActionResult> Update(UpdateMentorDto mentor)
+        {
+            return HandleResult(await Mediator.Send(new Application.Mentors.Edit.Command { Mentor = mentor }));
         }
     }
 }
