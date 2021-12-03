@@ -10,7 +10,8 @@ namespace Persistence
         {
         }
 
-        public DbSet<Review> Reviews {get;set;}
+		public DbSet<MentorJobApplication> JobApplications { get; set; }
+		public DbSet<Review> Reviews {get;set;}
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<AppUserCategory> AppUserCategories { get; set; }

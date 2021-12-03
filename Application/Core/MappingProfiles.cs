@@ -42,6 +42,7 @@ namespace Application.Core
             CreateMap<UpdateMentorDto, AppUser>();
             CreateMap<SkillDto, AppUserSkill>()
                 .ForMember(aus => aus.SkillId, o => o.MapFrom(sd => sd.Id));
+            CreateMap<JobApplicationDto, MentorJobApplication>();
         }
     }
 }
