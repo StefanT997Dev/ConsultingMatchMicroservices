@@ -21,8 +21,9 @@ namespace Persistence
         public DbSet<UserFollowing> UserFollowings { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<CategorySkill> CategorySkills { get; set; }
+		public DbSet<Photo> Photos { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 

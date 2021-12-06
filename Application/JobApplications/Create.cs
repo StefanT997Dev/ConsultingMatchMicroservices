@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -25,11 +26,13 @@ namespace Application.JobApplications
 		{
 			private readonly DataContext _context;
 			private readonly IMapper _mapper;
+			private readonly IEmailSender _emailSender;
 
-			public Handler(DataContext context, IMapper mapper)
+			public Handler(DataContext context, IMapper mapper, IEmailSender emailSender)
 			{
 				_context = context;
 				_mapper = mapper;
+				_emailSender = emailSender;
 			}
 
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -49,6 +52,8 @@ namespace Application.JobApplications
 
 				if (result)
 				{
+					await _emailSender.SendEmail();
+
 					return Result<Unit>.Success(Unit.Value);
 				}
 				return Result<Unit>.Failure("Nismo uspeli da sačuvamo vašu prijavu, molimo Vas da na kontaktirate kako bismo Vam pomogli");
