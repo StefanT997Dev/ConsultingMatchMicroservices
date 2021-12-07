@@ -18,7 +18,8 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [AllowAnonymous]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(UserEmailDto userEmailDto)
         {
             return HandleResult(await Mediator.Send(new Delete.Command{UserEmail=userEmailDto.Email}));

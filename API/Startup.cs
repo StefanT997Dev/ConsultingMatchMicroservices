@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Extensions.RepositoryServices;
+using API.Middleware;
 using API.SignalR;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
@@ -59,9 +60,7 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseMiddleware<ExceptionMiddleware>();
-
-            app.UseDeveloperExceptionPage();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             if (env.IsDevelopment())
             {
