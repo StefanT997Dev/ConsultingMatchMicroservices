@@ -5,10 +5,9 @@ using Application.DTOs;
 
 namespace Application.Interfaces.Repositories.Mentors
 {
-	public interface IMentorsRepository
+	public interface IMentorsRepository: IRepository<MentorDisplayDto, string>
 	{
 		Task<Tuple<IEnumerable<MentorDisplayDto>, int>> GetMentorsPaginatedAsync(int pageNumber, int pageSize, string category);
 		Task<int> GetTotalNumberOfMentors();
-		Task<MentorDisplayDto> GetMentorAsync(string id);
 	}
 }

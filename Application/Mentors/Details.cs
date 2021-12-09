@@ -18,16 +18,16 @@ namespace Application.Mentors
 
         public class Handler : IRequestHandler<Query, Result<MentorDisplayDto>>
         {
-			private readonly IMentorsRepository _repository;
+			private readonly IMentorsRepository _mentorsRepository;
 		
-            public Handler(IMentorsRepository repository)
+            public Handler(IMentorsRepository mentorsRepository)
             {
-                _repository = repository;
+                _mentorsRepository = mentorsRepository;
 			}
 
             public async Task<Result<MentorDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _repository.GetMentorAsync(request.Id);
+                var user = await _mentorsRepository.GetAsync(request.Id);
 
                 if (user == null)
                 {

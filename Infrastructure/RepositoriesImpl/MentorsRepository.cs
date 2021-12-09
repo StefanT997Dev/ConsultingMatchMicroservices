@@ -26,7 +26,7 @@ namespace Infrastructure.RepositoriesImpl
 			_userManager = userManager;
 		}
 
-		public async Task<MentorDisplayDto> GetMentorAsync(string id)
+		public async Task<MentorDisplayDto> GetAsync(string id)
 		{
 			return await _context.Users
 				.Where(u => u.Id == id)
