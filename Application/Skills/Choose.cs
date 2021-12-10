@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using Application.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,19 +22,23 @@ namespace Application.Skills
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly DataContext _context;
+			private readonly IMapper _mapper;
+			private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            public Handler(IMapper mapper, DataContext context, IUserAccessor userAccessor)
             {
                 _userAccessor = userAccessor;
-                _context = context;
+				_mapper = mapper;
+				_context = context;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var mentor = await _context.Users
                     .AsNoTracking()
-                    .FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUsername());
+                    .Where(u => u.UserName == _userAccessor.GetUsername())
+                    .ProjectTo<MentorDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync();
 
                 var appUserSkillsList = new List<AppUserSkill>();
 

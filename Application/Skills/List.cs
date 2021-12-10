@@ -36,8 +36,6 @@ namespace Application.Skills
             {
                 var category = await _context.Categories
                     .Where(c => c.Id == request.CategoryId)
-                    .Include(c => c.Skills)
-                    .ThenInclude(cs => cs.Skill)
                     .ProjectTo<CategoryWithSkillsDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
 

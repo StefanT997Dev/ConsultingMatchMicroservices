@@ -27,7 +27,7 @@ namespace Application.Mentors
 
             public async Task<Result<MentorDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _mentorsRepository.GetAsync(request.Id);
+                var user = await _mentorsRepository.GetAsync<MentorDisplayDto>(request.Id);
 
                 if (user == null)
                 {

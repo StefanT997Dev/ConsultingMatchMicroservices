@@ -11,8 +11,11 @@ namespace Application.Core
         {
             CreateMap<Post,Post>();
             CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>();
             CreateMap<Review,ReviewDto>();
-            CreateMap<AppUser,MentorsearchDto>();
+            CreateMap<AppUser,MentorSearchDto>();
+            CreateMap<AppUserSkill, MentorSearchDto>()
+                .ForMember(msd => msd.DisplayName, o => o.MapFrom(aus => aus.Mentor.DisplayName));
             CreateMap<AppUserCategory,MentorDisplayDto>()
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.AppUser.DisplayName))
                 .ForMember(d => d.Bio, o => o.MapFrom(s => s.AppUser.Bio));

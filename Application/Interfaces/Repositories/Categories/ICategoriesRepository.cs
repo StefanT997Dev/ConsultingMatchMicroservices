@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.Interfaces.Repositories.Categories
 {
-	public class CategoryDto : IGenericModel<Guid>
+    public interface ICategoriesRepository : IRepository<Category, Guid>
 	{
-		public Guid Id { get; set; }
-		public string Name { get; set; }
 	}
 }

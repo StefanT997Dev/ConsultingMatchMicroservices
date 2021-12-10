@@ -79,7 +79,7 @@ namespace API.Controllers
                 if(!addRoleResult.Succeeded)
                 {
                     return BadRequest("Niste izabrali ulogu");
-                }
+                } 
 
                 return new UserDto
                 {

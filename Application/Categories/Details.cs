@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces.Repositories.Categories;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
@@ -21,21 +22,16 @@ namespace Application.Categories
 
         public class Handler : IRequestHandler<Query, Result<CategoryDto>>
         {
-            private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+			private readonly ICategoriesRepository _categoriesRepository;
+
+			public Handler(ICategoriesRepository categoriesRepository)
             {
-                _mapper = mapper;
-                _context = context;
-            }
+				_categoriesRepository = categoriesRepository;
+			}
 
             public async Task<Result<CategoryDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var category = await _context.Categories
-                    .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync(x=> x.Id ==request.Id);
-
-                return Result<CategoryDto>.Success(category);
+                return Result<CategoryDto>.Success(await _categoriesRepository.GetAsync<CategoryDto>(request.Id));
             }
         }
     }

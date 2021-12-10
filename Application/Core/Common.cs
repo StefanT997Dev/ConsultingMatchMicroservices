@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.DTOs;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -38,18 +39,10 @@ namespace Application
 
         public async static Task<List<ReviewDto>> GetUserReviews(DataContext _context,IMapper _mapper,string userId)
         {
-            var listOfReviewsDtoForMentor = new List<ReviewDto>();
-
-            var reviews = await _context.Reviews.Where(r => r.Mentor.Id == userId).ToListAsync();
-
-            foreach (var review in reviews)
-            {
-                listOfReviewsDtoForMentor.Add(
-                    _mapper.Map<ReviewDto>(review)
-                );
-            }
-
-            return listOfReviewsDtoForMentor;
+            return await _context.Reviews
+                .Where(r => r.Mentor.Id == userId)
+                .ProjectTo<ReviewDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public static Tuple<int, int> GetTotalStarRatingAndAverageStarReview(List<ReviewDto> listOfReviews)

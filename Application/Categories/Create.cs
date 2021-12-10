@@ -1,8 +1,11 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Categories.Validation;
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces.Repositories.Categories;
+using Application.Interfaces.Repositories.Mentors;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -25,27 +28,16 @@ namespace Application.Categories
             }
         }
 
-        public class Handler : IRequestHandler<Command,Result<Unit>>
+        public class Handler : GenericHandler<Category, Guid>, IRequestHandler<Command,Result<Unit>>
         {
-            private readonly DataContext _context;
-            public Handler(DataContext context)
+			public Handler(ICategoriesRepository categoriesRepository) : base(categoriesRepository)
             {
-                _context = context;
-            }
+				
+			}
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var category = new Category
-                {
-                    Id=request.Category.Id,
-                    Name=request.Category.Name
-                };
-
-                _context.Categories.Add(category);
-
-                var result = await _context.SaveChangesAsync()>0;
-
-                if(result)
+                if(await repository.AddAsync(request.Category))
                 {
                     return Result<Unit>.Success(Unit.Value);
                 }

@@ -1,11 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces.Repositories.Mentors;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,66 +17,30 @@ namespace Application.Mentors
 {
     public class Search
     {
-        public class Command : IRequest<Result<List<MentorsearchDto>>>
+        public class Command : IRequest<Result<IEnumerable<MentorSearchDto>>>
         {
-            public SkillDto Skill { get; set; }
+            public SearchSkillDto Skill { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<List<MentorsearchDto>>>
+        public class Handler : IRequestHandler<Command, Result<IEnumerable<MentorSearchDto>>>
         {
-            private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+			private readonly IMentorsRepository _mentorsRepository;
+
+			public Handler(IMentorsRepository mentorsRepository)
             {
-                _mapper = mapper;
-                _context = context;
-            }
+				_mentorsRepository = mentorsRepository;
+			}
 
-            public async Task<Result<List<MentorsearchDto>>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<IEnumerable<MentorSearchDto>>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var appUserSkills = await _context.AppUserSkills
-                    .Where(aus => aus.Skill.Name.StartsWith(request.Skill.Name))
-                    .Include(aus => aus.Mentor)
-                    .Include(aus => aus.Skill)
-                    .ToListAsync();
+                var mentorsWithSkills = await _mentorsRepository
+                    .FindAsync<MentorSearchDto>(u => u.Skills.Any(s => s.Skill.Name.StartsWith(request.Skill.Name)));
 
-                var usersWithDesiredSkill = new List<AppUser>();
-
-                foreach (var appUserSkill in appUserSkills)
+                if (!mentorsWithSkills.Any())
                 {
-                    usersWithDesiredSkill.Add(appUserSkill.Mentor);
+                    return Result<IEnumerable<MentorSearchDto>>.Failure("Nismo uspeli da pronađemo nijednog mentora");
                 }
-
-                var listOfMentorseacthDtos = new List<MentorsearchDto>();
-
-                foreach (var user in usersWithDesiredSkill)
-                {
-                    listOfMentorseacthDtos.Add(
-                        new MentorsearchDto
-                        {
-                            DisplayName = user.DisplayName,
-                            Skills = GetSkills(user).Result
-                        }
-                    );
-                }
-                return Result<List<MentorsearchDto>>.Success(listOfMentorseacthDtos);
-            }
-
-            private async Task<ICollection<SkillDto>> GetSkills(AppUser user)
-            {
-                var appUserSkills = await _context.AppUserSkills
-                    .Where(aus => aus.MentorId==user.Id)
-                    .Include(aus => aus.Skill)
-                    .ToListAsync();
-
-                var skillDtoList = new List<SkillDto>();
-
-                foreach(var appUserSkill in appUserSkills)
-                {
-                    skillDtoList.Add(_mapper.Map<SkillDto>(appUserSkill.Skill));
-                }
-
-                return skillDtoList;
+                return Result<IEnumerable<MentorSearchDto>>.Success(mentorsWithSkills);
             }
         }
     }

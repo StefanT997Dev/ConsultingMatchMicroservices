@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using Domain;
 using Newtonsoft.Json;
 
 namespace Application.DTOs
 {
-    public class MentorsearchDto
+    public class MentorSearchDto : IGenericModel<string>
     {
+        public string Id { get; set; }
         public string DisplayName { get; set; }
         public ICollection<SkillDto> Skills { get; set; }
-    }
+	}
 }

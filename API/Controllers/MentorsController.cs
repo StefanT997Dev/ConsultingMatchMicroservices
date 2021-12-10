@@ -54,7 +54,7 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Search(SkillDto skill)
+        public async Task<IActionResult> Search(SearchSkillDto skill)
         {
             return Ok(await Mediator.Send(new Search.Command{Skill=skill}));
         }
