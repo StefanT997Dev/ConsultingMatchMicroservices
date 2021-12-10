@@ -57,7 +57,7 @@ namespace Persistence
                     Name = "Data Science/Machine Learning"
                 }
             };
-                await context.Categories.AddRangeAsync(categories);
+                context.Categories.AddRange(categories);
             }
 
             if (!context.Skills.Any())
@@ -130,6 +130,7 @@ namespace Persistence
                 }
             };
                 context.Skills.AddRange(skills);
+            }
 
             if (!context.Roles.Any())
             {
@@ -141,7 +142,6 @@ namespace Persistence
                 context.Roles.AddRange(roles);
             }
                 await context.SaveChangesAsync();
-            }
         }
     }
 }
