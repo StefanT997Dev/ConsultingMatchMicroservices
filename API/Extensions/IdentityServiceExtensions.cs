@@ -15,7 +15,7 @@ namespace API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddIdentity<AppUser,IdentityRole>(opt=>
+            services.AddIdentity<AppUser,Role>(opt=>
             {
                 opt.Password.RequireNonAlphanumeric=false;
             })

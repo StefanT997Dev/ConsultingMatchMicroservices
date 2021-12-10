@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -14,15 +15,15 @@ namespace Application.Roles
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly RoleManager<IdentityRole> _roleManager;
-            public Handler(RoleManager<IdentityRole> roleManager)
+            private readonly RoleManager<Role> _roleManager;
+            public Handler(RoleManager<Role> roleManager)
             {
                 _roleManager = roleManager;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var role = new IdentityRole
+                var role = new Role
                 {
                     Name=request.RoleName   
                 };

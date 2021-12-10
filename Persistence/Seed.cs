@@ -58,7 +58,6 @@ namespace Persistence
                 }
             };
                 await context.Categories.AddRangeAsync(categories);
-                await context.SaveChangesAsync();
             }
 
             if (!context.Skills.Any())
@@ -130,7 +129,17 @@ namespace Persistence
                     Name = "Javascript"
                 }
             };
-                await context.Skills.AddRangeAsync(skills);
+                context.Skills.AddRange(skills);
+
+            if (!context.Roles.Any())
+            {
+                    var roles = new List<Role> 
+                    {
+                        new Role { Name = "Mentor" },
+                        new Role { Name = "Client" }
+                    };
+                context.Roles.AddRange(roles);
+            }
                 await context.SaveChangesAsync();
             }
         }

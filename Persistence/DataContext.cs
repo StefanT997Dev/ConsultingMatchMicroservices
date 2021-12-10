@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public class DataContext : IdentityDbContext<AppUser>
+    public class DataContext : IdentityDbContext<AppUser, Role, string>
     {
-		public DataContext()
-		{
-		}
-
 		public DataContext(DbContextOptions options) : base(options)
         {
         }
