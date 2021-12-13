@@ -8,7 +8,7 @@ namespace Application.UnitTests.Mocks
 {
 	public class MockMentorsRepository
 	{
-		public Mock<IMentorsRepository> GetMentorsRepository(int pageNumber, int pageSize)
+		/*public Mock<IMentorsRepository> GetMentorsRepository(int pageNumber, int pageSize)
 		{
 			var fixture = new Fixture();
 			var mentors = fixture.Build<IEnumerable<MentorDisplayDto>>().Create();
@@ -16,6 +16,6 @@ namespace Application.UnitTests.Mocks
 			var mockRepo = new Mock<IMentorsRepository>();
 
 			mockRepo.Setup(x => x.GetMentorsPaginatedAsync(pageNumber, pageSize)).ReturnsAsync(mentors);
-		}
+		}*/
 	}
 }

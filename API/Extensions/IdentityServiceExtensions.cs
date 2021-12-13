@@ -4,6 +4,7 @@ using API.Services;
 using Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,9 @@ namespace API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddIdentity<AppUser,Role>(opt=>
+            services.AddDbContext<DataContext>();
+
+            services.AddIdentity<AppUser, IdentityRole>(opt=>
             {
                 opt.Password.RequireNonAlphanumeric=false;
             })

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain
 {
     public class AppUser:IdentityUser, IGenericModel<string>
     {
-        public string DisplayName { get; set; }
+		public string DisplayName { get; set; }
         public string Bio { get; set; }
         public string SalesVideo { get; set; }
         public string ProfilePicture { get; set; }
@@ -17,6 +18,5 @@ namespace Domain
         public ICollection<Review> ClientReviews { get; set; }
         public ICollection<UserFollowing> Followings { get; set; }
         public ICollection<UserFollowing> Followers { get; set; }
-		public ICollection<Role> Roles { get; set; }
-	}
+    }
 }

@@ -32,7 +32,7 @@ namespace Application.Categories
 
                 var categoriesList = categories.ToList();
 
-                if (categoriesList.Any())
+                if (!categoriesList.Any())
                 {
                     return Result<List<CategoryDto>>.Failure("Kategorije ne postoje u bazi podataka");
                 }

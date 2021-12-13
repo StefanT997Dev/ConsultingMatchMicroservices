@@ -15,15 +15,15 @@ namespace Application.Roles
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly RoleManager<Role> _roleManager;
-            public Handler(RoleManager<Role> roleManager)
+            private readonly RoleManager<IdentityRole> _roleManager;
+            public Handler(RoleManager<IdentityRole> roleManager)
             {
                 _roleManager = roleManager;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var role = new Role
+                var role = new IdentityRole
                 {
                     Name=request.RoleName   
                 };

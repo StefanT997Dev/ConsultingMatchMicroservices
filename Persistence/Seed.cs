@@ -131,16 +131,6 @@ namespace Persistence
             };
                 context.Skills.AddRange(skills);
             }
-
-            if (!context.Roles.Any())
-            {
-                    var roles = new List<Role> 
-                    {
-                        new Role { Name = "Mentor" },
-                        new Role { Name = "Client" }
-                    };
-                context.Roles.AddRange(roles);
-            }
                 await context.SaveChangesAsync();
         }
     }

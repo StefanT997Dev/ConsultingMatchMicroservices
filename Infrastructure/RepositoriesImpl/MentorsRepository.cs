@@ -8,37 +8,37 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.RepositoriesImpl
 {
 	public class MentorsRepository : Repository<AppUser, string>, IMentorsRepository
 	{
-		public MentorsRepository(DataContext context, IMapper mapper): base(context, mapper)
+		private readonly UserManager<AppUser> _userManager;
+
+		public MentorsRepository(DataContext context, IMapper mapper, UserManager<AppUser> userManager): base(context, mapper)
 		{
-			
+			_userManager = userManager;
 		}
 
 		public async Task<Tuple<IEnumerable<MentorDisplayDto>,int>> GetMentorsPaginatedAsync(int pageNumber, int pageSize, string category)
 		{
 			int totalRecords = 0;
-			var mentorsQuery = entities
-				.Where(u => u.Roles.Any(r => r.Name == "Mentor"))
-				.ProjectTo<MentorDisplayDto>(mapperConfigurationProvider)
-				.AsQueryable();
+			var mentors = entities
+				.ProjectTo<MentorDisplayDto>(mapperConfigurationProvider);
 
 			if (category != null)
 			{
-				mentorsQuery.Where(m => m.Categories.Any(c => c.Name == category));
-				totalRecords = await mentorsQuery.CountAsync();
+				mentors.Where(m => m.Categories.Any(c => c.Name == category));
+				totalRecords = await mentors.CountAsync();
 			}
 			else
 			{
-				totalRecords = await mentorsQuery.CountAsync();
+				totalRecords = await mentors.CountAsync();
 			}
 
-			return new Tuple<IEnumerable<MentorDisplayDto>, int>(await mentorsQuery
+			return new Tuple<IEnumerable<MentorDisplayDto>, int>(await mentors
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
 				.ToListAsync(),totalRecords);

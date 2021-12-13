@@ -34,7 +34,7 @@ namespace Application.Mentors
 
                 int totalRecords = mentorTuple.Item2;
 
-                if (mentorsList.Count == 0)
+                if (!mentorsList.Any())
                 {
                     return PagedResult<List<MentorDisplayDto>>
                         .Failure("Nismo uspeli da pronađemo mentore na osnovu prosleđenih kriterijuma");
