@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.Repositories.Categories
 {
-    public interface ICategoriesRepository : IRepository<Category, Guid>
+    public interface ICategoriesRepository : IRepository<Category>
 	{
 	}
 }

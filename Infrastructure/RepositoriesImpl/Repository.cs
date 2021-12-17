@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.RepositoriesImpl
 {
-	public class Repository<TInput, P> : IRepository<TInput, P> where TInput:class, IGenericModel<P> 
+	public class Repository<TInput> : IRepository<TInput> where TInput:class 
 	{
 		protected readonly DbContext context;
 		protected readonly IMapper mapper;
@@ -34,7 +34,7 @@ namespace Infrastructure.RepositoriesImpl
 			return await context.SaveChangesAsync() > 0;
 		}
 
-		public async Task<IEnumerable<TOutput>> FindAsync<TOutput>(Expression<Func<TInput, bool>> expression) where TOutput : class, IGenericModel<P>
+		public async Task<IEnumerable<TOutput>> FindAsync<TOutput>(Expression<Func<TInput, bool>> expression) where TOutput : class
 		{
 			return await entities
 				.Where(expression)
@@ -42,18 +42,18 @@ namespace Infrastructure.RepositoriesImpl
 				.ToListAsync();
 		}
 
-		public async Task<IEnumerable<TOutput>> GetAllAsync<TOutput>() where TOutput : class, IGenericModel<P>
+		public async Task<IEnumerable<TOutput>> GetAllAsync<TOutput>() where TOutput : class
 		{
 			return await entities
 				.ProjectTo<TOutput>(mapperConfigurationProvider)
 				.ToListAsync();
 		}
 
-		public async Task<TOutput> GetAsync<TOutput>(P id) where TOutput : class, IGenericModel<P>
+		public async Task<TOutput> GetAsync<TOutput>(Expression<Func<TOutput, bool>> expression) where TOutput : class
 		{
 			return await entities
 				.ProjectTo<TOutput>(mapperConfigurationProvider)
-				.FirstOrDefaultAsync(x => x.Id.Equals(id));
+				.FirstOrDefaultAsync(expression);
 		}
 	}
 }

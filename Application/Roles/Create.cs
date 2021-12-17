@@ -4,6 +4,7 @@ using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Persistence;
 
 namespace Application.Roles
 {
@@ -15,26 +16,29 @@ namespace Application.Roles
         }
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly RoleManager<IdentityRole> _roleManager;
-            public Handler(RoleManager<IdentityRole> roleManager)
+			private readonly DataContext _context;
+
+			public Handler(DataContext context)
             {
-                _roleManager = roleManager;
-            }
+				_context = context;
+			}
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var role = new IdentityRole
+                var role = new Role
                 {
                     Name=request.RoleName   
                 };
 
-                var result = await _roleManager.CreateAsync(role);
+                _context.Roles.Add(role);
 
-                if(result.Succeeded)
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if(result)
                 {
                     return Result<Unit>.Success(Unit.Value);
                 }
-                return Result<Unit>.Failure("Failed to create a new role");
+                return Result<Unit>.Failure("Nismo uspeli da kreiramo novu ulogu");
             }
         }
     }

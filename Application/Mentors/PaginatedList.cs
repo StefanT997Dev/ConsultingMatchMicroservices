@@ -7,6 +7,8 @@ using MediatR;
 using Application.Interfaces.Repositories.Mentors;
 using Application.Core.Wrappers;
 using System;
+using Domain;
+using Application.Core;
 
 namespace Application.Mentors
 {
@@ -19,7 +21,7 @@ namespace Application.Mentors
 
 		public class Handler : IRequestHandler<Query, PagedResult<List<MentorDisplayDto>>>
         {
-            private readonly IMentorsRepository _mentorsRepository;
+			private readonly IMentorsRepository _mentorsRepository;
 
 			public Handler(IMentorsRepository mentorsRepository)
             {

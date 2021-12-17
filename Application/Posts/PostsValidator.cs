@@ -1,4 +1,4 @@
-using Domain;
+/*using Domain;
 using FluentValidation;
 
 namespace Application.Posts
@@ -11,4 +11,4 @@ namespace Application.Posts
             RuleFor(x => x.Description).NotEmpty();
         }
     }
-}
+}*/

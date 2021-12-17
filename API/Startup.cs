@@ -81,8 +81,8 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapHub<MessageHub>("/message");
+                /*endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHub<MessageHub>("/message");*/
             });
         }
     }

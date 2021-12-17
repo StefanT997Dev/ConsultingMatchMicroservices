@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Application.Posts;
-using Domain;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 namespace API.Controllers
 {
-    public class PostsController:BaseApiController
+	public class PostsController:BaseApiController
     {
-        [HttpGet]
+       /* [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
             return HandleResultForLists(await Mediator.Send(new List.Query()));
-        }
+        }*/
 
-        [HttpGet("{id}")] 
+        /*[HttpGet("{id}")] 
         public async Task<IActionResult> GetPost(Guid id)
         {
             return HandleResult(await Mediator.Send(new Details.Query{Id=id}));
@@ -35,6 +27,6 @@ namespace API.Controllers
         public async Task<IActionResult> DeletePost(Guid id)
         {
             return HandleResult(await Mediator.Send(new Delete.Command{Id=id}));
-        }
+        }*/
     }
 }

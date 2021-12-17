@@ -13,19 +13,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.RepositoriesImpl
 {
-	public class MentorsRepository : Repository<AppUser, string>, IMentorsRepository
+	public class MentorsRepository : Repository<AppUser>, IMentorsRepository
 	{
-		private readonly UserManager<AppUser> _userManager;
 
-		public MentorsRepository(DataContext context, IMapper mapper, UserManager<AppUser> userManager): base(context, mapper)
+		public MentorsRepository(DataContext context, IMapper mapper): base(context, mapper)
 		{
-			_userManager = userManager;
+			
 		}
 
 		public async Task<Tuple<IEnumerable<MentorDisplayDto>,int>> GetMentorsPaginatedAsync(int pageNumber, int pageSize, string category)
 		{
 			int totalRecords = 0;
 			var mentors = entities
+				.Where(x => x.Role.Name == "Mentor")
 				.ProjectTo<MentorDisplayDto>(mapperConfigurationProvider);
 
 			if (category != null)

@@ -6,7 +6,7 @@ using Domain;
 
 namespace Application.Interfaces.Repositories.Mentors
 {
-	public interface IMentorsRepository: IRepository<AppUser, string>
+	public interface IMentorsRepository: IRepository<AppUser>
 	{
 		Task<Tuple<IEnumerable<MentorDisplayDto>, int>> GetMentorsPaginatedAsync(int pageNumber, int pageSize, string category);
 	}

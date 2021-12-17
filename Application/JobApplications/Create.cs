@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using Application.Interfaces;
-using AutoMapper;
-using Domain;
+using Application.Interfaces.Repositories.JobApplications;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace Application.JobApplications
 {
@@ -24,31 +17,18 @@ namespace Application.JobApplications
 
 		public class Handler : IRequestHandler<Command, Result<Unit>>
 		{
-			private readonly DataContext _context;
-			private readonly IMapper _mapper;
+			private readonly IJobApplicationRepository _jobApplicationRepository;
 			private readonly IEmailSender _emailSender;
 
-			public Handler(DataContext context, IMapper mapper, IEmailSender emailSender)
+			public Handler(IJobApplicationRepository jobApplicationRepository, IEmailSender emailSender)
 			{
-				_context = context;
-				_mapper = mapper;
+				_jobApplicationRepository = jobApplicationRepository;
 				_emailSender = emailSender;
 			}
 
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				var jobApplication = await _context.JobApplications
-					.Where(application => application.Email == request.JobApplication.Email)
-					.FirstOrDefaultAsync();
-
-				if (jobApplication != null)
-				{
-					return Result<Unit>.Failure("Korisnik sa ovom email adresom se već prijavio za poziciju mentora");
-				}
-
-				_context.JobApplications.Add(_mapper.Map<MentorJobApplication>(request.JobApplication));
-
-				var result = await _context.SaveChangesAsync() > 0;
+				var result = await _jobApplicationRepository.AddAsync(request.JobApplication);
 
 				if (result)
 				{

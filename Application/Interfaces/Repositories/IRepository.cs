@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.Repositories
 {
-	public interface IRepository<TInput, P> 
+	public interface IRepository<TInput> 
 	{
-		Task<TOutput> GetAsync<TOutput>(P id) where TOutput : class, IGenericModel<P>;
-		Task<IEnumerable<TOutput>> GetAllAsync<TOutput>() where TOutput : class, IGenericModel<P>;
-		Task<IEnumerable<TOutput>> FindAsync<TOutput>(Expression<Func<TInput, bool>> expression) where TOutput : class, IGenericModel<P>;
+		Task<TOutput> GetAsync<TOutput>(Expression<Func<TOutput, bool>> expression) where TOutput : class;
+		Task<IEnumerable<TOutput>> GetAllAsync<TOutput>() where TOutput : class;
+		Task<IEnumerable<TOutput>> FindAsync<TOutput>(Expression<Func<TInput, bool>> expression) where TOutput : class;
 
 		Task<bool> AddAsync<TInputDto>(TInputDto input);
 	}

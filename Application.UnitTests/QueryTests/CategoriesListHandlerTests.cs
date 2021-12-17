@@ -1,8 +1,10 @@
 ﻿using Application.Core;
 using Application.DTOs;
+using Application.Interfaces.Repositories;
 using Application.Interfaces.Repositories.Categories;
 using AutoFixture;
 using AutoMapper;
+using Domain;
 using Infrastructure.RepositoriesImpl;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -16,16 +18,15 @@ using static Application.Categories.List;
 
 namespace Application.UnitTests.QueryTests
 {
-	public class CategoriesListHandlerTests : HandlerBase
+	public class CategoriesListHandlerTests : HandlerBase<ICategoriesRepository>
 	{
 		private readonly Handler _sut;
-		private readonly Mock<ICategoriesRepository> _categoriesRepository;
 		private readonly Query _query;
-		
+
 		public CategoriesListHandlerTests()
 		{
-			_categoriesRepository = new Mock<ICategoriesRepository>();
-			_sut = new Handler(_categoriesRepository.Object);
+			repository = new Mock<ICategoriesRepository>();
+			_sut = new Handler(repository.Object);
 			_query = new Query();
 		}
 
@@ -38,7 +39,7 @@ namespace Application.UnitTests.QueryTests
 		{
 			var fixture = new Fixture();
 			var listOfCategories = fixture.Build<CategoryDto>().CreateMany(numberOfEntries);
-			_categoriesRepository.Setup(repo => repo.GetAllAsync<CategoryDto>())
+			repository.Setup(repo => repo.GetAllAsync<CategoryDto>())
 				.ReturnsAsync(listOfCategories);
 
 			var result = await _sut.Handle(_query, cancellationToken);

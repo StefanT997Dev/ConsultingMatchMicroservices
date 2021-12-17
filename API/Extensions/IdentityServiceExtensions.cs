@@ -18,7 +18,7 @@ namespace API.Extensions
         {
             services.AddDbContext<DataContext>();
 
-            services.AddIdentity<AppUser, IdentityRole>(opt=>
+            services.AddIdentityCore<AppUser>(opt=>
             {
                 opt.Password.RequireNonAlphanumeric=false;
             })

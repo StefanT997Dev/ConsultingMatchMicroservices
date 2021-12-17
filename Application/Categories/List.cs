@@ -20,7 +20,7 @@ namespace Application.Categories
     {
         public class Query : IRequest<Result<List<CategoryDto>>> { }
 
-        public class Handler : GenericHandler<Category, Guid>,IRequestHandler<Query, Result<List<CategoryDto>>>
+        public class Handler : GenericHandler<Category>, IRequestHandler<Query, Result<List<CategoryDto>>>
         {
 			public Handler(ICategoriesRepository repository) : base(repository)
 			{

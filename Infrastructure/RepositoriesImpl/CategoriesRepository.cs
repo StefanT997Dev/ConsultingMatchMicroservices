@@ -7,7 +7,7 @@ using System;
 
 namespace Infrastructure.RepositoriesImpl
 {
-	public class CategoriesRepository : Repository<Category, Guid>, ICategoriesRepository
+	public class CategoriesRepository : Repository<Category>, ICategoriesRepository
 	{
 		public CategoriesRepository(DataContext context, IMapper mapper) : base(context, mapper)
 		{

@@ -28,7 +28,7 @@ namespace Application.Categories
             }
         }
 
-        public class Handler : GenericHandler<Category, Guid>, IRequestHandler<Command,Result<Unit>>
+        public class Handler : GenericHandler<Category> ,IRequestHandler<Command,Result<Unit>>
         {
 			public Handler(ICategoriesRepository categoriesRepository) : base(categoriesRepository)
             {

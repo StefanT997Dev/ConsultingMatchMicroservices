@@ -3,7 +3,7 @@ using Domain;
 
 namespace Application.DTOs
 {
-    public class MentorDisplayDto : IGenericModel<string>
+    public class MentorDisplayDto
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }

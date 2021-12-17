@@ -1,15 +1,13 @@
-using Application.Comments;
 using Application.DTOs;
 using AutoMapper;
 using Domain;
 
 namespace Application.Core
 {
-    public class MappingProfiles : Profile
+	public class MappingProfiles : Profile
     {
         public MappingProfiles()
         {
-            CreateMap<Post,Post>();
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
             CreateMap<Review,ReviewDto>();
@@ -17,12 +15,8 @@ namespace Application.Core
             CreateMap<AppUserSkill, MentorSearchDto>()
                 .ForMember(msd => msd.DisplayName, o => o.MapFrom(aus => aus.Mentor.DisplayName));
             CreateMap<AppUserCategory,MentorDisplayDto>()
-                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.AppUser.DisplayName))
-                .ForMember(d => d.Bio, o => o.MapFrom(s => s.AppUser.Bio));
-            CreateMap<Comment,CommentDto>()
-                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
-                .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
-                .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.ProfilePicture));
+                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Mentor.DisplayName))
+                .ForMember(d => d.Bio, o => o.MapFrom(s => s.Mentor.Bio));
             CreateMap<AppUser,UserDto>();
             CreateMap<Skill,SkillDto>();
             CreateMap<SkillDto, Skill>();
@@ -46,6 +40,7 @@ namespace Application.Core
             CreateMap<SkillDto, AppUserSkill>()
                 .ForMember(aus => aus.SkillId, o => o.MapFrom(sd => sd.Id));
             CreateMap<JobApplicationDto, MentorJobApplication>();
+            CreateMap<AppUserCategoryDto, AppUserCategory>();
         }
     }
 }

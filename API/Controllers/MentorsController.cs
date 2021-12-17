@@ -1,14 +1,12 @@
 using System.Threading.Tasks;
 using Application.Mentors;
 using Application.DTOs;
-using Application.Posts;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class MentorsController : BaseApiController
+	public class MentorsController : BaseApiController
     {
         [AllowAnonymous]
         [HttpGet]
@@ -24,12 +22,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Application.Mentors.Details.Query{Id=id}));
         }
 
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpGet("{id}/reviews")]
         public async Task<IActionResult> GetReviews(string id)
         {
             return HandleResultForLists(await Mediator.Send(new Application.Reviews.List.Query{Id=id}));
-        }
+        }*/
         
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Client")]
         [HttpPost("{id}/reviews")]
@@ -38,7 +36,7 @@ namespace API.Controllers
             return Ok(await Mediator.Send(new Application.Reviews.Create.Command{Id=id,Review=review}));
         }
 
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpGet("{id}/posts")]
         public async Task<IActionResult> GetPosts(string id)
         {
@@ -51,7 +49,7 @@ namespace API.Controllers
         {
             return Ok(await Mediator.Send(new CreateAPost.Command{Id=id,Post=post}));
         }
-
+*/
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Search(SearchSkillDto skill)

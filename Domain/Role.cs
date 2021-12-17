@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-	public interface IGenericModel<T>
+	public class Role
 	{
-		public T Id { get; set; }
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public ICollection<AppUser> Users { get; set; }
 	}
 }

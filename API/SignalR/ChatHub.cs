@@ -1,5 +1,6 @@
-using System;
+/*using System;
 using System.Threading.Tasks;
+using Application.Categories;
 using Application.Comments;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -30,4 +31,4 @@ namespace API.SignalR
             await Clients.Caller.SendAsync("LoadComments",result.Value);
         }
     }
-}
+}*/

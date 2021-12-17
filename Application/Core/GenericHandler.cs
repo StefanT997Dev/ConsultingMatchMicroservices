@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Application.Core
 {
-	public class GenericHandler<TInput, P>
+	public class GenericHandler<TInput>
 	{
-		protected readonly IRepository<TInput, P> repository;
+		protected readonly IRepository<TInput> repository;
 
-		public GenericHandler(IRepository<TInput, P> repository)
+		public GenericHandler(IRepository<TInput> repository)
 		{
 			this.repository = repository;
 		}

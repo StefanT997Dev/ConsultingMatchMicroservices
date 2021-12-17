@@ -4,6 +4,7 @@ using Application.Core;
 using Application.DTOs;
 using Application.Interfaces.Repositories.Mentors;
 using AutoMapper;
+using Domain;
 using MediatR;
 using Microsoft.Extensions.Localization;
 
@@ -16,18 +17,16 @@ namespace Application.Mentors
             public string Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<MentorDisplayDto>>
-        {
-			private readonly IMentorsRepository _mentorsRepository;
-		
-            public Handler(IMentorsRepository mentorsRepository)
+        public class Handler : GenericHandler<AppUser> ,IRequestHandler<Query, Result<MentorDisplayDto>>
+        {	
+            public Handler(IMentorsRepository mentorsRepository) : base(mentorsRepository)
             {
-                _mentorsRepository = mentorsRepository;
+                
 			}
 
             public async Task<Result<MentorDisplayDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _mentorsRepository.GetAsync<MentorDisplayDto>(request.Id);
+                var user = await repository.GetAsync<MentorDisplayDto>(x => x.Id == request.Id);
 
                 if (user == null)
                 {

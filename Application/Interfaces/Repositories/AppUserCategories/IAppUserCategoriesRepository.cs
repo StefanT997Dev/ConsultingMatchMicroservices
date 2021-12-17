@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.Interfaces.Repositories.AppUserCategories
 {
-	public class CategoryDto
+	public interface IAppUserCategoriesRepository : IRepository<AppUserCategory>
 	{
-		public Guid Id { get; set; }
-		public string Name { get; set; }
 	}
 }

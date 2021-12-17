@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.Interfaces.Repositories.JobApplications
 {
-	public class CategoryDto
+	public interface IJobApplicationRepository : IRepository<MentorJobApplication>
 	{
-		public Guid Id { get; set; }
-		public string Name { get; set; }
 	}
 }

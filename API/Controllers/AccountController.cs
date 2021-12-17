@@ -67,20 +67,14 @@ namespace API.Controllers
             {
                 DisplayName=registerDto.DisplayName,
                 Email=registerDto.Email,
-                UserName=registerDto.Username
+                UserName=registerDto.Username,
+                Role = registerDto.Role
             };
 
             var result = await _userManager.CreateAsync(user,registerDto.Password);
 
             if(result.Succeeded)
             {
-                var addRoleResult = await _userManager.AddToRoleAsync(user,registerDto.Role);
-
-                if(!addRoleResult.Succeeded)
-                {
-                    return BadRequest("Niste izabrali ulogu");
-                } 
-
                 return new UserDto
                 {
                     Id=user.Id,
@@ -88,7 +82,7 @@ namespace API.Controllers
                     Image=null,
                     Token=_tokenService.CreateToken(user),
                     Username=user.UserName,
-                    Role=registerDto.Role
+                    Role=registerDto.Role.Name
                 };
             }
 

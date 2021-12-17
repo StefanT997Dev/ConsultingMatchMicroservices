@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Application.DTOs
 {
-    public class MentorSearchDto : IGenericModel<string>
+    public class MentorSearchDto
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }
