@@ -11,18 +11,45 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
+            if (!context.Roles.Any())
+            {
+                var roles = new List<Role>
+                {
+                    new Role{
+                        Name="Client"
+                    },
+                    new Role{
+                        Name="Mentor"
+                    }
+                };
+
+                context.Roles.AddRange(roles);
+                await context.SaveChangesAsync();
+            }
+
             if(!userManager.Users.Any())
             {
                 var users=new List<AppUser>
                 {
                     new AppUser{
-                        DisplayName="Bob", UserName="bob",Email="bob@test.com",Bio="I am Bob and I'm a software engineer"
+                        DisplayName="Bob", UserName="bob",
+                        Email="bob@test.com",
+                        Bio="I am Bob and I'm a software engineer", 
+                        Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
                     },
                     new AppUser{
-                        DisplayName="Tom", UserName="tom",Email="tom@test.com",Bio="I am Tom and I'm a software engineer"
+                        DisplayName="Tom",
+                        UserName="tom",
+                        Email="tom@test.com",
+                        Bio="I am Tom and I'm a software engineer",
+                        Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
                     },
                     new AppUser{
-                        DisplayName="John", UserName="john",Email="john@test.com",Bio="I am John and I'm a software engineer"
+                        DisplayName="John",
+                        UserName="john",
+                        Email="john@test.com",
+                        Bio="I am John and I'm a software engineer",
+                        Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
                     }
                 };
 
