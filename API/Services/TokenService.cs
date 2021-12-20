@@ -7,18 +7,20 @@ using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Persistence;
 
 namespace API.Services
 {
     public class TokenService
     {
         private readonly IConfiguration _config;
-        private readonly UserManager<AppUser> _userManager;
-        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
+		private readonly DataContext _context;
+
+		public TokenService(IConfiguration config, DataContext context)
         {
-            _userManager = userManager;
             _config = config;
-        }
+			_context = context;
+		}
 
         public string CreateToken(AppUser user)
         {
@@ -26,8 +28,7 @@ namespace API.Services
             {
                 new Claim(ClaimTypes.Name,user.UserName),
                 new Claim(ClaimTypes.NameIdentifier,user.Id),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.Role,_userManager.GetRolesAsync(user).Result[0])
+                new Claim(ClaimTypes.Email,user.Email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace API.Controllers
 {
@@ -18,10 +19,17 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TokenService _tokenService;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService)
+		private readonly DataContext _context;
+
+		public AccountController(
+            UserManager<AppUser> userManager, 
+            SignInManager<AppUser> signInManager,
+            TokenService tokenService,
+            DataContext context)
         {
             _tokenService = tokenService;
-            _signInManager = signInManager;
+			_context = context;
+			_signInManager = signInManager;
             _userManager = userManager;
         }
 
@@ -53,38 +61,49 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if(await _userManager.Users.AnyAsync(x=> x.Email==registerDto.Email))
+            if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
             {
                 return BadRequest("Email je zauzet");
             }
 
-            if(await _userManager.Users.AnyAsync(x=> x.UserName==registerDto.Username))
+            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
             {
                 return BadRequest("Korisničko ime je zauzeto");
             }
 
-            var user=new AppUser
+            var user = new AppUser
             {
-                DisplayName=registerDto.DisplayName,
-                Email=registerDto.Email,
-                UserName=registerDto.Username,
-                Role = registerDto.Role
+                DisplayName = registerDto.DisplayName,
+                Email = registerDto.Email,
+                UserName = registerDto.Username,
+                RoleId = registerDto.RoleId
             };
 
-            var result = await _userManager.CreateAsync(user,registerDto.Password);
-
-            if(result.Succeeded)
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                return new UserDto
-                {
-                    Id=user.Id,
-                    DisplayName=user.DisplayName,
-                    Image=null,
-                    Token=_tokenService.CreateToken(user),
-                    Username=user.UserName,
-                    Role=registerDto.Role.Name
-                };
-            }
+				try
+				{
+                    var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+                    if (result.Succeeded)
+                    {
+                        return new UserDto
+                        {
+                            Id = user.Id,
+                            DisplayName = user.DisplayName,
+                            Image = null,
+                            Token = _tokenService.CreateToken(user),
+                            Username = user.UserName
+                        };
+                    }
+
+                    await transaction.CommitAsync();
+                }
+				catch (System.Exception)
+				{
+                    await transaction.RollbackAsync();
+				}
+            } 
 
             return BadRequest("Problem pri registraciji korisnika");
         }

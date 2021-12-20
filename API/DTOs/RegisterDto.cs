@@ -16,6 +16,6 @@ namespace API.DTOs
         [Required]
         public string Username { get; set; } 
         [Required]
-        public Role Role { get; set; }  
+        public int RoleId { get; set; }  
     }
 }

@@ -11,6 +11,7 @@ namespace Domain
         public string SalesVideo { get; set; }
         public string ProfilePicture { get; set; }
         public Photo Photo { get; set; }
+		public int RoleId { get; set; }
 		public Role Role { get; set; }
 		public ICollection<AppUserCategory> Categories { get; set; }
         public ICollection<AppUserSkill> Skills { get; set; }
