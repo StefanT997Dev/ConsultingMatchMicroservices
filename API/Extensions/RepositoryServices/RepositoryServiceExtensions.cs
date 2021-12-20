@@ -3,6 +3,7 @@ using Application.Interfaces.Repositories.AppUserCategories;
 using Application.Interfaces.Repositories.Categories;
 using Application.Interfaces.Repositories.JobApplications;
 using Application.Interfaces.Repositories.Mentors;
+using Application.Interfaces.Repositories.Reviews;
 using Infrastructure.RepositoriesImpl;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,7 @@ namespace API.Extensions.RepositoryServices
 			services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 			services.AddScoped<IAppUserCategoriesRepository, AppUserCategoriesRepository>();
 			services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+			services.AddScoped<IReviewsRepository, ReviewsRepository>();
 
 			return services;
 		}

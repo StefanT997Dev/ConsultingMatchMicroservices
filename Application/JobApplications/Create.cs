@@ -5,6 +5,7 @@ using Application.DTOs;
 using Application.Interfaces;
 using Application.Interfaces.Repositories.JobApplications;
 using MediatR;
+using Persistence;
 
 namespace Application.JobApplications
 {
@@ -19,22 +20,39 @@ namespace Application.JobApplications
 		{
 			private readonly IJobApplicationRepository _jobApplicationRepository;
 			private readonly IEmailSender _emailSender;
+			private readonly DataContext _context;
 
-			public Handler(IJobApplicationRepository jobApplicationRepository, IEmailSender emailSender)
+			public Handler(
+				IJobApplicationRepository jobApplicationRepository, 
+				IEmailSender emailSender,
+				DataContext context)
 			{
 				_jobApplicationRepository = jobApplicationRepository;
 				_emailSender = emailSender;
+				_context = context;
 			}
 
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				var result = await _jobApplicationRepository.AddAsync(request.JobApplication);
-
-				if (result)
+				using (var transaction = await _context.Database.BeginTransactionAsync())
 				{
-					await _emailSender.SendEmail();
+					try
+					{
+						var result = await _jobApplicationRepository.AddAsync(request.JobApplication);
 
-					return Result<Unit>.Success(Unit.Value);
+						if (result)
+						{
+							await _emailSender.SendEmail();
+
+							return Result<Unit>.Success(Unit.Value);
+						}
+
+						await transaction.CommitAsync();
+					}
+					catch (System.Exception)
+					{
+						await transaction.RollbackAsync();
+					}
 				}
 				return Result<Unit>.Failure("Nismo uspeli da sačuvamo vašu prijavu, molimo Vas da na kontaktirate kako bismo Vam pomogli");
 			}
