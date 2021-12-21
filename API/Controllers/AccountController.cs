@@ -85,9 +85,11 @@ namespace API.Controllers
 				{
                     var result = await _userManager.CreateAsync(user, registerDto.Password);
 
+                    UserDto userDto = null;
+
                     if (result.Succeeded)
                     {
-                        return new UserDto
+                        userDto = new UserDto
                         {
                             Id = user.Id,
                             DisplayName = user.DisplayName,
@@ -98,6 +100,8 @@ namespace API.Controllers
                     }
 
                     await transaction.CommitAsync();
+
+                    return userDto;
                 }
 				catch (System.Exception)
 				{

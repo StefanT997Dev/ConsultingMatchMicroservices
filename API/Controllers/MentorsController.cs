@@ -61,7 +61,7 @@ namespace API.Controllers
         [HttpPatch]
         public async Task<IActionResult> Update(UpdateMentorDto mentor)
         {
-            return HandleResult(await Mediator.Send(new Application.Mentors.Edit.Command { Mentor = mentor }));
+            return HandleResult(await Mediator.Send(new Edit.Command { Mentor = mentor }));
         }
     }
 }

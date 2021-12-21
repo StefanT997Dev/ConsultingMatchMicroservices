@@ -2,7 +2,9 @@
 using Application.Interfaces;
 using Application.Interfaces.Repositories.JobApplications;
 using AutoFixture;
+using Microsoft.EntityFrameworkCore;
 using Moq;
+using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +23,15 @@ namespace Application.UnitTests.CommandTests
 		private readonly Mock<IEmailSender> _emailSender;
 		private Command _command;
 		private readonly CancellationToken _cancellationToken;
+		private readonly DataContext _dataContext;
+		private readonly Mock<DbContextOptions> _dbContextOptions;
 		public JobApplicationCreateHandlerTests()
 		{
 			_repository = new Mock<IJobApplicationRepository>();
 			_emailSender = new Mock<IEmailSender>();
-			_sut = new Handler(_repository.Object, _emailSender.Object);
+			_dbContextOptions = new Mock<DbContextOptions>();
+			_dataContext = new DataContext(_dbContextOptions.Object);
+			_sut = new Handler(_repository.Object, _emailSender.Object, _dataContext);
 			_cancellationToken = new CancellationToken();
 		}
 

@@ -18,9 +18,9 @@ namespace API.Extensions
         {
             services.AddDbContext<DataContext>();
 
-            services.AddIdentityCore<AppUser>(opt=>
+            services.AddIdentityCore<AppUser>(opt =>
             {
-                opt.Password.RequireNonAlphanumeric=false;
+                opt.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<DataContext>()
             .AddSignInManager<SignInManager<AppUser>>();
@@ -51,6 +51,7 @@ namespace API.Extensions
                         }
                     };
                 });
+
             services.AddScoped<TokenService>();
 
             return services;

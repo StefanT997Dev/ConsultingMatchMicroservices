@@ -17,5 +17,7 @@ namespace Domain
         public ICollection<AppUserSkill> Skills { get; set; }
         public ICollection<Review> MentorReviews { get; set; }
         public ICollection<Review> ClientReviews { get; set; }
-    }
+		public ICollection<Mentorship> Clients { get; set; }
+		public ICollection<Mentorship> Mentors { get; set; }
+	}
 }

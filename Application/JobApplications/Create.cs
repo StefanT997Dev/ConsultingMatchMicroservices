@@ -40,21 +40,21 @@ namespace Application.JobApplications
 					{
 						var result = await _jobApplicationRepository.AddAsync(request.JobApplication);
 
-						if (result)
+						/*if (result)
 						{
 							await _emailSender.SendEmail();
-
-							return Result<Unit>.Success(Unit.Value);
-						}
+						}*/
 
 						await transaction.CommitAsync();
+
+						return Result<Unit>.Success(Unit.Value);
 					}
 					catch (System.Exception)
 					{
 						await transaction.RollbackAsync();
 					}
 				}
-				return Result<Unit>.Failure("Nismo uspeli da sačuvamo vašu prijavu, molimo Vas da na kontaktirate kako bismo Vam pomogli");
+				return Result<Unit>.Failure("Nismo uspeli da sačuvamo vašu prijavu, molimo Vas da nas kontaktirate kako bismo Vam pomogli");
 			}
 		}
 	}

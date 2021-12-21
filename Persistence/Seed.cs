@@ -32,7 +32,8 @@ namespace Persistence
                 var users=new List<AppUser>
                 {
                     new AppUser{
-                        DisplayName="Bob", UserName="bob",
+                        DisplayName="Bob", 
+                        UserName="bob",
                         Email="bob@test.com",
                         Bio="I am Bob and I'm a software engineer", 
                         Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
@@ -50,6 +51,13 @@ namespace Persistence
                         Email="john@test.com",
                         Bio="I am John and I'm a software engineer",
                         Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
+                    },
+                    new AppUser{
+                        DisplayName="Stefan",
+                        UserName="stefan",
+                        Email="stefan@test.com",
+                        Bio="I am Stefan and I'm a software engineer",
+                        Role=context.Roles.FirstOrDefault(x => x.Name == "Client")
                     }
                 };
 

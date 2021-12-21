@@ -19,6 +19,7 @@ namespace Persistence
         public DbSet<Skill> Skills { get; set; }
         public DbSet<CategorySkill> CategorySkills { get; set; }
 		public DbSet<Photo> Photos { get; set; }
+		public DbSet<Mentorship> Mentorships { get; set; }
 		public new DbSet<Role> Roles { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
@@ -62,6 +63,19 @@ namespace Persistence
                     .WithMany(c => c.MentorReviews)
                     .HasForeignKey(r => r.ClientId)
                     .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            builder.Entity<Mentorship>(b =>
+            {
+                b.HasKey(m => new { m.MentorId, m.ClientId });
+
+                b.HasOne(m => m.Mentor)
+                    .WithMany(m => m.Clients)
+                    .HasForeignKey(m => m.MentorId); 
+
+                b.HasOne(m => m.Client)
+                    .WithMany(c => c.Mentors)
+                    .HasForeignKey(m => m.ClientId);
             });
 
             builder.Entity<CategorySkill>(x => x.HasKey(cs => new { cs.SkillId , cs.CategoryId }));

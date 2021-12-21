@@ -26,7 +26,8 @@ namespace Application.Core
             CreateMap<Skill,CategorySkill>()
                 .ForMember(cs=>cs.SkillId,o =>o.MapFrom(s => s.Id));
             CreateMap<AppUser, MentorDisplayDto>()
-                .ForMember(mdd => mdd.Reviews, o=>o.MapFrom(au => au.ClientReviews));
+                .ForMember(mdd => mdd.Reviews, o=>o.MapFrom(au => au.ClientReviews))
+                .ForMember(mdd => mdd.Role, o => o.MapFrom(au => au.Role.Name));
             CreateMap<AppUserCategory, CategoryDto>()
                 .ForMember(cd => cd.Id, o => o.MapFrom(auc => auc.CategoryId))
                 .ForMember(cd => cd.Name, o=> o.MapFrom(auc => auc.Category.Name));

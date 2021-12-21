@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.Interfaces.Repositories.Mentorship
 {
-	public class ClientDto
+	public interface IMentorshipRepository : IRepository<Domain.Mentorship>
 	{
-		public string Id { get; set; }
-		public string Username { get; set; }
 	}
 }
