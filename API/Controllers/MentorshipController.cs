@@ -16,10 +16,10 @@ namespace API.Controllers
 			return HandleResult(await Mediator.Send(new Create.Command { Mentorship = mentorship }));
 		}
 
-		[HttpGet]
+		/*[HttpGet]
 		public async Task<IActionResult> GetAllClientsOfMentor()
 		{
 			return HandleResult(await Mediator.Send(new ListOfClientsForMentor { }));
-		}
+		}*/
 	}
 }
