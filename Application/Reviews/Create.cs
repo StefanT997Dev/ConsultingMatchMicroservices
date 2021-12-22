@@ -49,6 +49,15 @@ namespace Application.Reviews
                     .ProjectTo<ClientDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync();
 
+                // Ako nije njegov klijent ne moze da ostavi recenziju
+                var mentorship = await _context.Mentorships.FirstOrDefaultAsync(x => x.ClientId == client.Id
+                    && x.MentorId == request.Id);
+
+                if (mentorship == null)
+                {
+                    return Result<Unit>.Failure("Ne možete ostaviti recenziju za ovog mentora jer niste njegov klijent");
+                }
+
                 var review = new Review
                 {
                     StarRating = request.Review.StarRating,
