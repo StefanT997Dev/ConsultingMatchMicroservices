@@ -10,9 +10,12 @@ namespace Domain
         public string Bio { get; set; }
         public string SalesVideo { get; set; }
         public string ProfilePicture { get; set; }
-        public Photo Photo { get; set; }
 		public int RoleId { get; set; }
+		public int NumberOfPackages { get; set; }
+		public MentorPriceRateEnum PriceRate { get; set; }
 		public Role Role { get; set; }
+        public Photo Photo { get; set; }
+		public ICollection<Package> Packages { get; set; }
 		public ICollection<AppUserCategory> Categories { get; set; }
         public ICollection<AppUserSkill> Skills { get; set; }
         public ICollection<Review> MentorReviews { get; set; }

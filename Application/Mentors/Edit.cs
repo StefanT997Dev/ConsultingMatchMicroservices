@@ -25,16 +25,20 @@ namespace Application.Mentors
 
 		public class Handler : IRequestHandler<Command, Result<Unit>>
 		{
+			private readonly IMapper _mapper;
+			private readonly DataContext _context;
 			private readonly IMentorsRepository _repository;
 
-			public Handler(IMentorsRepository repository)
+			public Handler(IMapper mapper, DataContext context, IMentorsRepository repository)
 			{
+				_mapper = mapper;
+				_context = context;
 				_repository = repository;
 			}
 
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				/*var mentor = await _repository.GetAsync<MentorDisplayDto>(x => x.Id == request.Mentor.Id);
+				var mentor = await _repository.GetAsync<MentorDisplayDto>(x => x.Id == request.Mentor.Id);
 
 				if (mentor == null) return null;
 
@@ -48,7 +52,7 @@ namespace Application.Mentors
 
 				var result = await _context.SaveChangesAsync() > 0;
 
-				if (!result) return Result<Unit>.Failure("Nismo uspeli da sačuvamo izmene");*/
+				if (!result) return Result<Unit>.Failure("Nismo uspeli da sačuvamo izmene");
 
 				return Result<Unit>.Success(Unit.Value);
 			}

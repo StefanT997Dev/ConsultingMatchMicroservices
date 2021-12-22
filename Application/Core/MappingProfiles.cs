@@ -42,6 +42,7 @@ namespace Application.Core
                 .ForMember(aus => aus.SkillId, o => o.MapFrom(sd => sd.Id));
             CreateMap<JobApplicationDto, MentorJobApplication>();
             CreateMap<AppUserCategoryDto, AppUserCategory>();
+            CreateMap<Role, RoleDto>();
         }
     }
 }

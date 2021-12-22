@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using API.DTOs;
+using Application.Admin;
+using Application.DTOs;
 using Application.Roles;
 using Application.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +14,7 @@ namespace API.Controllers
         [HttpPost]
         //[Authorize(Roles="Admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> Add(RoleDto role)
+        public async Task<IActionResult> Add(Application.DTOs.RoleDto role)
         {
             return Ok(await Mediator.Send(new Create.Command{RoleName=role.Name}));
         }
@@ -23,6 +25,13 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteUser(UserEmailDto userEmailDto)
         {
             return HandleResult(await Mediator.Send(new Delete.Command{UserEmail=userEmailDto.Email}));
+        }
+
+        [HttpPatch]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateMento(AdminUpdateMentorDto updateMentorDto)
+        {
+            return HandleResult(await Mediator.Send(new UpdateMentor.Command { UpdateMentorDto = updateMentorDto }));
         }
     }
 }

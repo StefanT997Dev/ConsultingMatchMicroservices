@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-	public class Mentorship
+	public class Package
 	{
+		public int Id { get; set; }
+		public int NumberOfSessions { get; set; }
+		public int DurationInMonths { get; set; }
 		public string MentorId { get; set; }
 		public AppUser Mentor { get; set; }
-		public string ClientId { get; set; }
-		public AppUser Client { get; set; }
-		public int NumberOfSessions { get; set; }
 	}
 }

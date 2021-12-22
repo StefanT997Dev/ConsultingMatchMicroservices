@@ -16,10 +16,19 @@ namespace Persistence
                 var roles = new List<Role>
                 {
                     new Role{
+                        Name="Potential Client"
+                    },
+                    new Role{
                         Name="Client"
                     },
                     new Role{
+                        Name="Potential Mentor"
+                    },
+                    new Role{ 
                         Name="Mentor"
+                    },
+                    new Role{
+                        Name="Admin"
                     }
                 };
 
@@ -29,8 +38,8 @@ namespace Persistence
 
             if(!userManager.Users.Any())
             {
-                var mentorRole = context.Roles.FirstOrDefault(x => x.Name == "Mentor");
-                var clientRole = context.Roles.FirstOrDefault(x => x.Name == "Client");
+                var mentorRole = context.Roles.FirstOrDefault(x => x.Name == "Potential Mentor");
+                var clientRole = context.Roles.FirstOrDefault(x => x.Name == "Potential Client");
 
                 var users=new List<AppUser>
                 {

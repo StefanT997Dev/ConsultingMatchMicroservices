@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
@@ -9,9 +10,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211222130443_NumberOfSessionsNotNullable")]
+    partial class NumberOfSessionsNotNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace Persistence.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<int>("NumberOfPackages")
-                        .HasColumnType("integer");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -222,29 +221,6 @@ namespace Persistence.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Mentorships");
-                });
-
-            modelBuilder.Entity("Domain.Package", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("DurationInMonths")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("MentorId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("NumberOfSessions")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MentorId");
-
-                    b.ToTable("Package");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
@@ -536,15 +512,6 @@ namespace Persistence.Migrations
                     b.Navigation("Mentor");
                 });
 
-            modelBuilder.Entity("Domain.Package", b =>
-                {
-                    b.HasOne("Domain.AppUser", "Mentor")
-                        .WithMany("Packages")
-                        .HasForeignKey("MentorId");
-
-                    b.Navigation("Mentor");
-                });
-
             modelBuilder.Entity("Domain.Review", b =>
                 {
                     b.HasOne("Domain.AppUser", "Client")
@@ -626,8 +593,6 @@ namespace Persistence.Migrations
                     b.Navigation("MentorReviews");
 
                     b.Navigation("Mentors");
-
-                    b.Navigation("Packages");
 
                     b.Navigation("Skills");
                 });
