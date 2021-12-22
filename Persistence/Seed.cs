@@ -29,6 +29,9 @@ namespace Persistence
 
             if(!userManager.Users.Any())
             {
+                var mentorRole = context.Roles.FirstOrDefault(x => x.Name == "Mentor");
+                var clientRole = context.Roles.FirstOrDefault(x => x.Name == "Client");
+
                 var users=new List<AppUser>
                 {
                     new AppUser{
@@ -36,28 +39,35 @@ namespace Persistence
                         UserName="bob",
                         Email="bob@test.com",
                         Bio="I am Bob and I'm a software engineer", 
-                        Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
+                        Role=mentorRole
                     },
                     new AppUser{
                         DisplayName="Tom",
                         UserName="tom",
                         Email="tom@test.com",
                         Bio="I am Tom and I'm a software engineer",
-                        Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
+                        Role=mentorRole
                     },
                     new AppUser{
                         DisplayName="John",
                         UserName="john",
                         Email="john@test.com",
                         Bio="I am John and I'm a software engineer",
-                        Role=context.Roles.FirstOrDefault(x => x.Name == "Mentor")
+                        Role=mentorRole
                     },
                     new AppUser{
                         DisplayName="Stefan",
                         UserName="stefan",
                         Email="stefan@test.com",
                         Bio="I am Stefan and I'm a software engineer",
-                        Role=context.Roles.FirstOrDefault(x => x.Name == "Client")
+                        Role=clientRole
+                    },
+                    new AppUser{
+                        DisplayName="Miljan",
+                        UserName="miljan",
+                        Email="miljan@test.com",
+                        Bio="I am Miljan and I'm a software engineer",
+                        Role=clientRole
                     }
                 };
 
@@ -65,6 +75,31 @@ namespace Persistence
                 {
                     await userManager.CreateAsync(user,"Pa$$w0rd");
                 }
+            }
+
+            if (!context.Mentorships.Any())
+            {
+                var client1 = await userManager.FindByEmailAsync("stefan@test.com");
+                var client2 = await userManager.FindByEmailAsync("miljan@test.com");
+                var mentor = await userManager.FindByEmailAsync("bob@test.com");
+
+                var mentorships = new List<Mentorship>()
+                {
+                    new Mentorship
+                    {
+                        ClientId = client1.Id,
+                        MentorId = mentor.Id,
+                        NumberOfSessions = 40
+                    },
+                    new Mentorship
+                    {
+                        ClientId = client2.Id,
+                        MentorId = mentor.Id,
+                        NumberOfSessions = 40
+                    }
+                };
+
+                context.Mentorships.AddRange(mentorships);
             }
 
             if (!context.Categories.Any())
