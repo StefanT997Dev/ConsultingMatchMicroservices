@@ -71,12 +71,20 @@ namespace API.Controllers
                 return BadRequest("Korisničko ime je zauzeto");
             }
 
+            var role = await _context.Roles.FirstOrDefaultAsync(x => x.Name == registerDto.RoleName);
+
+            if (role == null)
+            {
+                return BadRequest("Nismo uspeli da pronađemo izabranu ulogu");
+            }
+
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
-                RoleId = registerDto.RoleId
+                RoleId = role.Id,
+                Role = role
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
