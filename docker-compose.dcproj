@@ -3,7 +3,10 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Windows</DockerTargetOS>
-    <ProjectGuid>eba83e87-ad44-46f1-afb9-6dac62429d67</ProjectGuid>
+    <ProjectGuid>c75b129d-3f67-4487-8f94-502a53969f74</ProjectGuid>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://{ServiceIPAddress}{ServicePort}/swagger</DockerServiceUrl>
+    <DockerServiceName>mentorsservice</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

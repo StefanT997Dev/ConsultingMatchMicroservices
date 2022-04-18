@@ -1,0 +1,19 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/Mentors",
+      "DownstreamSchema": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5000"
+        }
+      ],
+      "UpstreamPathTemplate": "/Mentors",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5010"
+  }
+}
